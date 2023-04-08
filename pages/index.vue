@@ -1,18 +1,5 @@
-<template>
-  <main>
-    <div class="managment"></div>
-  </main>
-</template>
+<template></template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style lang="scss" scoped>
-.managment {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  height: 97px;
-}
-</style>
+<style lang="scss" scoped></style>
