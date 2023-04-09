@@ -494,7 +494,7 @@
   resolved "https://registry.yarnpkg.com/@nuxt/devalue/-/devalue-2.0.0.tgz#c7bd7e9a516514e612d5d2e511ffc399e0eac322"
   integrity sha512-YBI/6o2EBz02tdEJRBK8xkt3zvOFOWlLBf7WKYGBsSYSRtjjgrqPe2skp6VLLmKx5WbHHDNcW+6oACaurxGzeA==
 
-"@nuxt/kit@3.3.3", "@nuxt/kit@^3.2.0":
+"@nuxt/kit@3.3.3", "@nuxt/kit@^3.0.0", "@nuxt/kit@^3.2.0":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.3.3.tgz#14706db145101750ac4ab75f2cc6d5a5c507c51b"
   integrity sha512-8ql3DweT1BNOCM6mmP8st+33NCAHHvmQuOS6Q75kXMZ6Ygqv06hxp5slpLXpT1ZOEoM+vzfkjO2lJ3rnjWYC4Q==
@@ -608,6 +608,14 @@
     vite-node "^0.29.8"
     vite-plugin-checker "^0.5.6"
     vue-bundle-renderer "^1.0.3"
+
+"@pinia/nuxt@^0.4.8":
+  version "0.4.8"
+  resolved "https://registry.yarnpkg.com/@pinia/nuxt/-/nuxt-0.4.8.tgz#ab6a6758f19da05e998dcda47be341a735c36f92"
+  integrity sha512-E0HKmW+6Ec5HYzomZl86xil2rGPRAqKG1d+slVVLBHC7PFZOM0VIw/1XFO9hwo+EiCuDEXZDReZwTqO7KQsMgQ==
+  dependencies:
+    "@nuxt/kit" "^3.0.0"
+    pinia ">=2.0.34"
 
 "@rollup/plugin-alias@^4.0.3":
   version "4.0.4"
@@ -2548,6 +2556,11 @@ make-dir@^3.1.0, make-dir@~3.1.0:
   dependencies:
     semver "^6.0.0"
 
+mande@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/mande/-/mande-2.0.6.tgz#9c01ee5eb07543b607018c25cc4604201ec6fd2c"
+  integrity sha512-cWPTZPf9C9iBmP7ZUMFx0doUUuIxenk3E9yaQT36aKSPDFIwqKvQdFYPDEtvUaKr6daAjy2nqYBQq4CG0u6sZw==
+
 mdn-data@2.0.28:
   version "2.0.28"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.28.tgz#5ec48e7bef120654539069e1ae4ddc81ca490eba"
@@ -3043,7 +3056,7 @@ pify@^2.3.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
-pinia@^2.0.34:
+pinia@>=2.0.34, pinia@^2.0.34:
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/pinia/-/pinia-2.0.34.tgz#6c0c84f06b631c30c030633fa64e525c609105a9"
   integrity sha512-cgOoGUiyqX0SSgX8XelK9+Ri4XA2/YyNtgjogwfzIx1g7iZTaZPxm7/bZYMCLU2qHRiHhxG7SuQO0eBacFNc2Q==
