@@ -1,48 +1,49 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
+import { useFetch } from 'nuxt/app';
+import { kelvinToFahrenheit } from '@/helpers/formules';
 
 export const useWeatherStore = defineStore('weatherStore', () => {
-  const currentCity = ref('');
-  const currentWeather = ref({});
-  const apiKey = ref('');
-  const currentPosition = ref({});
-  const inFahrenheit = ref(false);
-  const fahrenheitTemperature = ref('');
+  let currentCity = ref('London');
+  let currentWeather = ref({});
+  let apiKey = ref('');
+  let currentPosition = ref({});
+  let inFahrenheit = ref(false);
+  let fahrenheitTemperature = ref('');
 
   function setCurrentCity(newCurrentCity) {
-    currentCity = newCurrentCity;
+    currentCity.value = newCurrentCity;
   }
 
   function setCurrentWeather(newCurrentWeather) {
-    currentWeather = newCurrentWeather;
+    currentWeather.value = newCurrentWeather;
   }
 
   function setCurrentPosition(newCurrentPosition) {
-    currentPosition = newCurrentPosition;
+    currentPosition.value = newCurrentPosition;
   }
 
   function toggleFahrenheitTemperature(booleanValue) {
-    inFahrenheit = booleanValue;
+    inFahrenheit.value = booleanValue;
   }
 
   function setFahrenheitTemperature(value) {
-    fahrenheitTemperature = value;
+    fahrenheitTemperature.value = value;
   }
 
   function setCurrentApi(value) {
-    apiKey = value;
+    apiKey.value = value;
   }
 
   async function setWeatherByName() {
     try {
-      const weatherByName = await axios
-        .get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=${apiKey}`
-        )
-        .then((response) => response.data);
+      const weatherByName = await $fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${currentCity.value}&appid=${apiKey.value}`
+      );
+
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
     } catch {
-      alert("Incorrect name");
+      alert("Something went wrong");
     }
   }
 
@@ -56,11 +57,10 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentPosition(pos.coords)
     );
     try {
-      const weatherByCoords = await axios
-        .get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&appid=${apiKey}`
-        )
-        .then((response) => response.data);
+      const weatherByCoords = await $fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&appid=${apiKey}`
+      );
+
       setCurrentWeather(weatherByCoords);
       setCurrentCity(weatherByCoords.name);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0));
@@ -69,12 +69,12 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     }
   }
 
-  return { 
-    currentCity, 
-    currentWeather, 
-    apiKey, 
-    currentPosition, 
-    inFahrenheit, 
+  return {
+    currentCity,
+    currentWeather,
+    apiKey,
+    currentPosition,
+    inFahrenheit,
     fahrenheitTemperature,
     setCurrentCity,
     setCurrentWeather,
