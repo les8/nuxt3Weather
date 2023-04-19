@@ -1,0 +1,9 @@
+@import "./nullstyle.scss";
+@import "./fonts.scss";
+@import "./variables.scss";
+
+body {
+    font-family: Lato;
+    color: $primary-color;
+    background: linear-gradient($background-secondary, $background-primary);
+}
