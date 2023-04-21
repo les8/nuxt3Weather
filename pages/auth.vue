@@ -1,12 +1,12 @@
 <template>
   <div class="auth">
-    <h2 class="auth__title">Authorisation</h2>
+    <h1 class="auth__title">Authorisation</h1>
     <div class="auth__input">
       <input type="text" name="auth-input" placeholder="Enter your api key..." v-model="inputAPI"
-        @keydown.enter="chechKey" />
+        @keydown.enter="checkKey" />
     </div>
     <div class="auth__actions">
-      <button class="auth__button" type="submit" @click="chechKey">
+      <button class="auth__button" type="submit" @click="checkKey">
         Log In
       </button>
       <a class="auth__button auth__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
@@ -29,6 +29,11 @@
 <script setup>
 import { useWeatherStore } from '~/stores/WeatherStore';
 
+const key = useCookie("key");
+if (key.value) {
+  navigateTo('/');
+}
+
 const weatherStore = useWeatherStore()
 
 const inputAPI = ref('');
@@ -37,15 +42,17 @@ function submitCurrentAPI() {
   weatherStore.setCurrentApi(inputAPI)
 }
 
-async function chechKey() {
+async function checkKey() {
   if (!inputAPI.value) return;
 
   try {
     const isKeyOk = await useFetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${inputAPI.value}`);
 
     if (!isKeyOk.error.value) {
-      document.cookie = `key=${inputAPI.value}`;
+      const key = useCookie('key')
+      key.value = `${inputAPI.value}`;
       submitCurrentAPI();
+      navigateTo('/');
     }
   } catch (error) {
     console.log(error);
