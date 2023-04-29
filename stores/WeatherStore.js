@@ -3,7 +3,7 @@ import { useFetch } from 'nuxt/app';
 import { kelvinToFahrenheit } from '@/helpers/formules';
 
 export const useWeatherStore = defineStore('weatherStore', () => {
-  let currentCity = ref('London');
+  let currentCity = ref('');
   let currentWeather = ref({});
   let apiKey = ref('');
   let currentPosition = ref({});
@@ -53,12 +53,14 @@ export const useWeatherStore = defineStore('weatherStore', () => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
       });
     }
+
     await getCoordinates().then((pos) =>
       setCurrentPosition(pos.coords)
     );
+
     try {
       const weatherByCoords = await $fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&appid=${apiKey}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.value.latitude}&lon=${currentPosition.value.longitude}&appid=${apiKey.value}`
       );
 
       setCurrentWeather(weatherByCoords);
