@@ -60,6 +60,10 @@ async function checkKey() {
 }
 </script>
 
+<style lang="scss">
+@import '@/public/styles/common.scss';
+</style>
+
 <style lang="scss" scoped>
 .auth {
   width: 80%;
