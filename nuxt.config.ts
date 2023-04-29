@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
+    'nuxt-icons',
   ],
   vite: {
     css: {

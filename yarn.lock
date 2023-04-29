@@ -2561,11 +2561,6 @@ make-dir@^3.1.0, make-dir@~3.1.0:
   dependencies:
     semver "^6.0.0"
 
-mande@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npmjs.org/mande/-/mande-2.0.6.tgz"
-  integrity sha512-cWPTZPf9C9iBmP7ZUMFx0doUUuIxenk3E9yaQT36aKSPDFIwqKvQdFYPDEtvUaKr6daAjy2nqYBQq4CG0u6sZw==
-
 mdn-data@2.0.28:
   version "2.0.28"
   resolved "https://registry.npmjs.org/mdn-data/-/mdn-data-2.0.28.tgz"
@@ -2870,6 +2865,13 @@ nuxi@3.3.3:
   integrity sha512-j0wp7TS3u9DWxmSY+NHLyu5y4UkbWOhciDdc9uFdrTZKKYl7XYTAR6UoG9fpFEO7624eDqsAE0ASG4tbq6klkg==
   optionalDependencies:
     fsevents "~2.3.2"
+
+nuxt-icons@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/nuxt-icons/-/nuxt-icons-3.2.1.tgz#a70456e8a310c4a46f43dcb9b113085158205d77"
+  integrity sha512-trvAFq9oWYwWEQ0qZDHVxvLK+TwOdFnoXYOXQvN1CRUlp1DBJdxC8vXO3mED2Kb+Suag+bpWLC6eXGrRwhfffQ==
+  dependencies:
+    "@nuxt/kit" "^3.0.0"
 
 nuxt@^3.3.2:
   version "3.3.3"
