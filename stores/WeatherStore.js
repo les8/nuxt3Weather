@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useFetch } from 'nuxt/app';
 import { kelvinToFahrenheit } from '@/helpers/formules';
 
 export const useWeatherStore = defineStore('weatherStore', () => {
