@@ -1,13 +1,14 @@
 <template>
   <div class="wrapper">
-    <!--
-    <Loader v-else-if="!weatherStore.currentCity" />
-    <StartPage v-else />
-    -->
+    <PageLoader v-if="!weatherStore.currentCity" />
+    <IndexPage v-else />
   </div>
 </template>
 
 <script setup>
+import { useWeatherStore } from '~/stores/WeatherStore';
+const weatherStore = useWeatherStore();
+
 definePageMeta({
   middleware: 'auth'
 })

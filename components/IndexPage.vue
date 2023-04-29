@@ -1,0 +1,39 @@
+<template>
+  <div class="startpage">
+    <div class="header">
+      <IndexPageLocation />
+      <!--<TemperatureScale />-->
+    </div>
+    <!--
+    <Main />
+    <Footer />
+    -->
+  </div>
+</template>
+
+<script setup></script>
+
+<style lang="scss">
+.startpage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+  padding: 100px 200px;
+
+  @media (max-width: $tablet-max) {
+    padding: 64px;
+  }
+
+  @media (max-width: $phone-max) {
+    padding: 19px;
+  }
+}
+
+.header {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  height: 97px;
+}
+</style>
