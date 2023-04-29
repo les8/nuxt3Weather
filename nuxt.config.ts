@@ -3,4 +3,13 @@ export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
   ],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/public/styles/common.scss";'
+        }
+      }
+    }
+  }
 })

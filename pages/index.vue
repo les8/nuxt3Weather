@@ -13,7 +13,4 @@ definePageMeta({
 })
 </script>
 
-<style lang="scss">
-@import "@/public/styles/common.scss";
-@import "@/public/styles/settings.scss";
-</style>
+<style lang="scss"></style>
