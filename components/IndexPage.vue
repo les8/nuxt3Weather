@@ -2,7 +2,7 @@
   <div class="startpage">
     <div class="header">
       <IndexPageLocation />
-      <!--<TemperatureScale />-->
+      <IndexPageTemperature />
     </div>
     <!--
     <Main />
