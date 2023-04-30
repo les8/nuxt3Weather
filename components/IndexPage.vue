@@ -5,9 +5,7 @@
       <IndexPageTemperature />
     </div>
     <IndexPageMain />
-    <!--
-    <Footer />
-    -->
+    <IndexPageFooter />
   </div>
 </template>
 
