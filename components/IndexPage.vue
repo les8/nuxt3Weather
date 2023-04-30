@@ -4,8 +4,8 @@
       <IndexPageLocation />
       <IndexPageTemperature />
     </div>
+    <IndexPageMain />
     <!--
-    <Main />
     <Footer />
     -->
   </div>
