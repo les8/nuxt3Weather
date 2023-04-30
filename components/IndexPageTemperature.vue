@@ -3,14 +3,14 @@
     <p class="temperature__degree">º</p>
     <div class="temperature__toggle">
       <div
-        @click="weatherStore.toggleFahrenheitTemperature()"
+        @click="weatherStore.toggleFahrenheitTemperature(false)"
         class="temperature__items temperature__item-1"
       >
         <input id="celsus" type="radio" name="radio" value="on" checked />
         <label for="celsus">C</label>
       </div>
       <div
-        @click="weatherStore.toggleFahrenheitTemperature()"
+        @click="weatherStore.toggleFahrenheitTemperature(true)"
         class="temperature__items temperature__item-2"
       >
         <input id="fahrenheit" type="radio" name="radio" value="off" />

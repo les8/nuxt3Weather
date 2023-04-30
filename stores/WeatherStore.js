@@ -21,8 +21,8 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     currentPosition.value = newCurrentPosition;
   }
 
-  function toggleFahrenheitTemperature() {
-    inFahrenheit.value = !inFahrenheit.value;
+  function toggleFahrenheitTemperature(boolean) {
+    inFahrenheit.value = boolean;
   }
 
   function setFahrenheitTemperature(value) {
