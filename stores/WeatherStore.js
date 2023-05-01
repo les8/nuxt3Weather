@@ -35,9 +35,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
 
   async function setWeatherByName() {
     try {
-      const weatherByName = await $fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${currentCity.value}&appid=${apiKey.value}`
-      );
+      const weatherByName = await $fetch(`/api/weather/location/${currentCity.value}`);
 
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
