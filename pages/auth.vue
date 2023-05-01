@@ -27,20 +27,8 @@
 </template>
 
 <script setup>
-import { useWeatherStore } from '~/stores/WeatherStore';
-
-const key = useCookie("key");
-if (key.value) {
-  navigateTo('/');
-}
-
-const weatherStore = useWeatherStore()
-
+// Этот компонент можно в будущем переделать под регистрацию
 const inputAPI = ref('');
-
-function submitCurrentAPI() {
-  weatherStore.setCurrentApi(inputAPI)
-}
 
 async function checkKey() {
   if (!inputAPI.value) return;
@@ -49,9 +37,7 @@ async function checkKey() {
     const isKeyOk = await useFetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${inputAPI.value}`);
 
     if (!isKeyOk.error.value) {
-      const key = useCookie('key')
-      key.value = `${inputAPI.value}`;
-      submitCurrentAPI();
+      // тут можно будет записать персональный ключ пользователя
       navigateTo('/');
     }
   } catch (error) {

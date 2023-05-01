@@ -4,7 +4,6 @@ import { kelvinToFahrenheit } from '@/helpers/formules';
 export const useWeatherStore = defineStore('weatherStore', () => {
   let currentCity = ref('');
   let currentWeather = ref({});
-  let apiKey = ref('');
   let currentPosition = ref({});
   let inFahrenheit = ref(false);
   let fahrenheitTemperature = ref('');
@@ -27,10 +26,6 @@ export const useWeatherStore = defineStore('weatherStore', () => {
 
   function setFahrenheitTemperature(value) {
     fahrenheitTemperature.value = value;
-  }
-
-  function setCurrentApi(value) {
-    apiKey.value = value;
   }
 
   async function setWeatherByName() {
@@ -69,7 +64,6 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   return {
     currentCity,
     currentWeather,
-    apiKey,
     currentPosition,
     inFahrenheit,
     fahrenheitTemperature,
@@ -78,7 +72,6 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     setCurrentPosition,
     toggleFahrenheitTemperature,
     setFahrenheitTemperature,
-    setCurrentApi,
     setWeatherByName,
     setWeatherByCoords,
   }
