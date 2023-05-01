@@ -8,10 +8,6 @@
 <script setup>
 import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
-
-definePageMeta({
-  middleware: 'auth'
-})
 </script>
 
 <style lang="scss">
