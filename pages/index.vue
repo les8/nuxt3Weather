@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <PageLoader v-if="!weatherStore.currentCity" />
+    <PageLoader v-if="!Object.keys(weatherStore.currentWeather).length" />
     <IndexPage v-else />
   </div>
 </template>

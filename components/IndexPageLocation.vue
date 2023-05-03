@@ -11,11 +11,11 @@
         {{ weatherStore.currentCity }}
       </h3>
       <div class="location__managment">
-        <h6 class="location__change" @click="editCurrentCity">Change Region</h6>
-        <div class="location__mycoordinates">
+        <button class="location__change location__button" @click="editCurrentCity">Change Region</button>
+        <button class="location__mycoordinates location__button" @click="weatherStore.setCoordinates">
           <NuxtIcon name="location" class="location__icon" />
-          <p @click="weatherStore.setWeatherByCoords">My Location</p>
-        </div>
+          <p>My Location</p>
+        </button>
       </div>
     </div>
   </div>
@@ -39,7 +39,8 @@ const editCurrentCity = () => {
 }
 
 const submitCurrentCity = () => {
-  if (inputCity.value !== "") {
+  if (inputCity.value.trim() !== "") {
+    weatherStore.setPreviousCity();
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
     weatherStore.setWeatherByName();
   } else inputCity.value = beforeEditCity.value;
@@ -48,13 +49,12 @@ const submitCurrentCity = () => {
 }
 
 const strBeautify = (str) => {
-  const str2 = str.toLowerCase();
-  const str3 = str2.charAt(0).toUpperCase() + str2.slice(1);
-  return str3;
+  const lowStr = str.toLowerCase();
+  return lowStr.charAt(0).toUpperCase() + lowStr.slice(1);
 }
 
 const validateSearch = (e) => {
-  inputCity.value = e.target.value.replace(/[^A-z,a-z,\s,-]/g, "");
+  inputCity.value = e.target.value.replace(/[^A-z,a-z,А-Я,а-я\s,-]/g, "");
 };
 </script>
 
@@ -112,11 +112,14 @@ const validateSearch = (e) => {
     }
   }
 
+  &__button {
+    background-color: unset;
+  }
+
   &__change {
     margin-right: 29px;
     font-size: $subtitle-size;
     opacity: 0.6;
-    cursor: pointer;
 
     &:hover {
       opacity: 1;
@@ -127,7 +130,6 @@ const validateSearch = (e) => {
     display: flex;
     font-size: $subtitle-size;
     opacity: 0.6;
-    cursor: pointer;
 
     &:hover {
       opacity: 1;
