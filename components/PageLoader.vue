@@ -1,5 +1,5 @@
 <template>
-  <div class="loader" />
+  <div class="loader">Loading...</div>
 </template>
 
 <script setup>
@@ -9,6 +9,7 @@ import { onMounted } from 'vue';
 const weatherStore = useWeatherStore();
 
 onMounted(() => {
-  weatherStore.setWeatherByCoords()
+  weatherStore.setInitialWeather();
+
 });
 </script>
