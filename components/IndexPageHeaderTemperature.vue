@@ -28,9 +28,8 @@ const weatherStore = useWeatherStore();
 
 <style lang="scss">
 .temperature {
-  position: absolute;
-  right: 0;
   display: flex;
+  flex-shrink: 0;
   font-size: $subtitle-size;
 
   &__degree {
