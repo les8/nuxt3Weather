@@ -1,9 +1,6 @@
 <template>
   <div class="startpage">
-    <div class="header">
-      <IndexPageLocation />
-      <IndexPageTemperature />
-    </div>
+    <IndexPageHeader />
     <IndexPageMain />
     <IndexPageFooter />
   </div>
@@ -26,11 +23,5 @@
   @media (max-width: $phone-max) {
     padding: 19px;
   }
-}
-
-.header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
 }
 </style>
