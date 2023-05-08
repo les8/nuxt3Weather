@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <PageLoader v-if="!Object.keys(weatherStore.currentWeather).length" />
+    <PageLoader v-if="!Object.keys(weatherStore.currentWeather).length" :initialization="true" />
     <IndexPage v-else />
   </div>
 </template>

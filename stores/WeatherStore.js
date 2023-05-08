@@ -9,6 +9,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   let inFahrenheit = ref(false);
   let fahrenheitTemperature = ref('');
   let isGeolocationActive = ref(false);
+  let isLoadingData = ref(false);
 
   function setCurrentCity(newCurrentCity) {
     currentCity.value = newCurrentCity;
@@ -44,6 +45,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   }
 
   async function setWeatherByName() {
+    isLoadingData.value = true;
     clearCurrentPosition();
 
     try {
@@ -51,7 +53,10 @@ export const useWeatherStore = defineStore('weatherStore', () => {
 
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
+
+      isLoadingData.value = false;
     } catch (e) {
+      isLoadingData.value = false;
       const error = e.data;
       if (error.data.cod === '404' && error.data.message === 'city not found') {
         setCurrentCity(previousCity.value);        
@@ -61,14 +66,19 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   }
 
   async function setWeatherByCoords() {
+    isLoadingData.value = true;
+
     try {
       const weatherByCoords = await $fetch(`/api/weather/data?latitude=${currentPosition.value.latitude}&longitude=${currentPosition.value.longitude}`);
 
       setCurrentWeather(weatherByCoords);
       setCurrentCity(weatherByCoords.name);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0));
+
+      isLoadingData.value = false;
     } catch (e) {
       alert(e);
+      isLoadingData.value = false;
     }
   }
 
@@ -111,6 +121,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     inFahrenheit,
     fahrenheitTemperature,
     isGeolocationActive,
+    isLoadingData,
     setCurrentCity,
     setPreviousCity,
     setCurrentWeather,

@@ -10,9 +10,17 @@ import { onMounted } from 'vue';
 
 const weatherStore = useWeatherStore();
 
-onMounted(() => {
-  weatherStore.setInitialWeather();
+const props = defineProps({
+  initialization: {
+    type: Boolean,
+    default: false,
+  },
+})
 
+onMounted(() => {
+  if (props.initialization) {
+    weatherStore.setInitialWeather();
+  }
 });
 </script>
 
