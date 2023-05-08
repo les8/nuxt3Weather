@@ -58,7 +58,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
 
-      toggleLoading(false);
+      setTimeout(toggleLoading, 500, false);
     } catch (e) {
       toggleLoading(false);
       const error = e.data;
@@ -79,7 +79,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentCity(weatherByCoords.name);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0));
 
-      toggleLoading(false);
+      setTimeout(toggleLoading, 500, false);
     } catch (e) {
       alert(e);
       toggleLoading(false);
