@@ -58,7 +58,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
 
-      setTimeout(toggleLoading, 500, false);
+      setTimeout(toggleLoading, 600, false);
     } catch (e) {
       toggleLoading(false);
       const error = e.data;
@@ -79,7 +79,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentCity(weatherByCoords.name);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0));
 
-      setTimeout(toggleLoading, 500, false);
+      setTimeout(toggleLoading, 600, false);
     } catch (e) {
       alert(e);
       toggleLoading(false);
@@ -104,7 +104,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
         toggleGeolocationActivity(true);
         toggleLoading(false);
         setWeatherByCoords();
-      } else toggleLoading(false);
+      } else setTimeout(toggleLoading, 600, false);
     } catch (e) {
       if (e.code === 1) {
         alert('Please, turn on your geolocation.')
