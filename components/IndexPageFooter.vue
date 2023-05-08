@@ -97,11 +97,13 @@ function convertWindDirection(num) {
   }
 
   &__subtitle {
+    font-family: Commissioner-B;
     font-size: $subtitle-size;
     margin-bottom: 10px;
   }
 
   &__info {
+    font-family: Commissioner-ExL;
     font-size: $text-size;
 
     @media (max-width: $phone-max) {
