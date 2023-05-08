@@ -44,8 +44,12 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     isGeolocationActive.value = boolean
   }
 
+  function toggleLoading(boolean) {
+    isLoadingData.value = boolean
+  }
+
   async function setWeatherByName() {
-    isLoadingData.value = true;
+    toggleLoading(true);
     clearCurrentPosition();
 
     try {
@@ -54,9 +58,9 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
 
-      isLoadingData.value = false;
+      toggleLoading(false);
     } catch (e) {
-      isLoadingData.value = false;
+      toggleLoading(false);
       const error = e.data;
       if (error.data.cod === '404' && error.data.message === 'city not found') {
         setCurrentCity(previousCity.value);        
@@ -66,7 +70,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   }
 
   async function setWeatherByCoords() {
-    isLoadingData.value = true;
+    toggleLoading(true);
 
     try {
       const weatherByCoords = await $fetch(`/api/weather/data?latitude=${currentPosition.value.latitude}&longitude=${currentPosition.value.longitude}`);
@@ -75,14 +79,16 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       setCurrentCity(weatherByCoords.name);
       setFahrenheitTemperature(kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0));
 
-      isLoadingData.value = false;
+      toggleLoading(false);
     } catch (e) {
       alert(e);
-      isLoadingData.value = false;
+      toggleLoading(false);
     }
   }
 
   async function setCoordinates() {
+    toggleLoading(true);
+
     function getCoordinates() {
       return new Promise(function (resolve, reject) {
         navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -96,12 +102,14 @@ export const useWeatherStore = defineStore('weatherStore', () => {
 
         setCurrentPosition(position.coords);
         toggleGeolocationActivity(true);
+        toggleLoading(false);
         setWeatherByCoords();
       }
     } catch (e) {
       if (e.code === 1) {
         alert('Please, turn on your geolocation.')
         toggleGeolocationActivity(false);
+        toggleLoading(false);
       }
     }
   }
