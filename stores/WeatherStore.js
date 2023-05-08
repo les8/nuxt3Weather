@@ -104,7 +104,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
         toggleGeolocationActivity(true);
         toggleLoading(false);
         setWeatherByCoords();
-      }
+      } else toggleLoading(false);
     } catch (e) {
       if (e.code === 1) {
         alert('Please, turn on your geolocation.')
