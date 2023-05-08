@@ -56,9 +56,9 @@ const weatherStore = useWeatherStore();
     label {
       display: flex;
       align-items: center;
-      padding: 0px 14px;
+      padding: 0px 25px;
       line-height: 34px;
-      height: 29px;
+      height: 50px;
       border: 1px solid rgba(255, 255, 255, 0.4);
       border-right: none;
       cursor: pointer;
