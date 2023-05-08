@@ -69,7 +69,7 @@ const weatherIcon = computed(() => {
     width: 200px;
     height: 200px;
     margin-right: 15px;
-    fill: rgb(209, 236, 87);
+    fill: $yellow-color;
 
     @media (max-width: $phone-max) {
       width: 120px;

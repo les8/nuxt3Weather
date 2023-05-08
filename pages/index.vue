@@ -2,6 +2,7 @@
   <div class="wrapper">
     <PageLoader v-if="!Object.keys(weatherStore.currentWeather).length" :initialization="true" />
     <IndexPage v-else />
+    <SideMenu />
   </div>
 </template>
 

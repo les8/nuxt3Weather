@@ -10,6 +10,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   let fahrenheitTemperature = ref('');
   let isGeolocationActive = ref(false);
   let isLoadingData = ref(false);
+  let isMenuVisible = ref(false);
 
   function setCurrentCity(newCurrentCity) {
     currentCity.value = newCurrentCity;
@@ -46,6 +47,10 @@ export const useWeatherStore = defineStore('weatherStore', () => {
 
   function toggleLoading(boolean) {
     isLoadingData.value = boolean
+  }
+
+  function toggleMenuVisibility(boolean) {
+    isMenuVisible.value = boolean;
   }
 
   async function setWeatherByName() {
@@ -130,11 +135,13 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     fahrenheitTemperature,
     isGeolocationActive,
     isLoadingData,
+    isMenuVisible,
     setCurrentCity,
     setPreviousCity,
     setCurrentWeather,
     setCurrentPosition,
     toggleFahrenheitTemperature,
+    toggleMenuVisibility,
     setFahrenheitTemperature,
     setWeatherByName,
     setWeatherByCoords,
