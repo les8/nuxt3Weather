@@ -12,7 +12,7 @@
           {{ weatherStore.currentCity }}
         </h3>
       </div>
-      <IndexPageHeaderTemperature />
+      <IndexPageHeaderTemperature :class="hideTemperature"/>
     </div>
     <div class="location__managment">
       <button class="location__change location__button" @click="editCurrentCity">Change Region</button>
@@ -65,6 +65,10 @@ const setMyLocation = () => {
   inChanges.value = false;
   weatherStore.setCoordinates();
 }
+
+const hideTemperature = computed(() => {
+  return inChanges.value ? 'location__temperature' : '';
+})
 </script>
 
 <style lang="scss" scoped>
@@ -116,6 +120,12 @@ const setMyLocation = () => {
   &__name {
     font-size: $title-size;
     cursor: pointer;
+  }
+
+  &__temperature {
+    @media (max-width: $phone-max) {
+      display: none;
+    }
   }
 
   &__managment {
