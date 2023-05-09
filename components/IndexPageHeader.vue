@@ -12,7 +12,8 @@
           {{ weatherStore.currentCity }}
         </h3>
       </div>
-      <NuxtIcon name="burger" class="burger" :class="hideBurger" @click="weatherStore.toggleMenuVisibility(true)"/>
+      <NuxtIcon name="burger" class="burger" :class="[hideBurger, animateBurger]"
+        @click="weatherStore.toggleMenuVisibility(true)" />
     </div>
     <div class="location__managment">
       <button class="location__change location__button" @click="editCurrentCity">Change Region</button>
@@ -66,6 +67,10 @@ const setMyLocation = () => {
 
 const hideBurger = computed(() => {
   return inChanges.value ? 'burger_hidden' : '';
+})
+
+const animateBurger = computed(() => {
+  return weatherStore.isMenuVisible ? 'burger_animated' : '';
 })
 </script>
 
@@ -165,11 +170,18 @@ const hideBurger = computed(() => {
 .burger {
   display: block;
   cursor: pointer;
+  opacity: 1;
+  transition: opacity 1s, transform 1s;
 
   &_hidden {
     @media (max-width: $phone-max) {
       display: none;
     }
+  }
+
+  &_animated {
+    opacity: 0;
+    transform: rotate(200deg) scale(0.2);
   }
 
   svg {

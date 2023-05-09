@@ -23,7 +23,8 @@ const menuVisible = computed(() => {
     height: 100%;
     background: $yellow-color;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 100px 100%);
-    transition: transform 1s;
+    transition: transform 0.8s;
+    transition-delay: 0.2s;
   }
 
   &_visible {
