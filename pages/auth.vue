@@ -1,26 +1,27 @@
 <template>
   <div class="auth">
-    <h1 class="auth__title">Authorisation</h1>
+    <h1 class="auth__title">Add Personal API Key</h1>
     <div class="auth__input">
-      <input type="text" name="auth-input" placeholder="Enter your api key..." v-model="inputAPI"
-        @keydown.enter="checkKey" />
+      <input type="text" name="auth-input" placeholder="Enter your key..." v-model="inputAPI" @keydown.enter="checkKey" />
     </div>
     <div class="auth__actions">
       <button class="auth__button" type="submit" @click="checkKey">
-        Log In
+        Save in Cookie
       </button>
-      <a class="auth__button auth__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
-        Register
-      </a>
+      <nav class="auth__links">
+        <a class="auth__button auth__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
+          Register
+        </a>
+        <NuxtLink class="auth__button auth__link" to="/">Home</NuxtLink>
+      </nav>
     </div>
     <p class="auth__about">
-      Hello, wanderer! <br />
-      We use third - party API to collect weather data. <br />
-      Please register on
-      <a href="https://home.openweathermap.org/users/sign_up/" target="_blank">
+      Hi! <br /><br />
+      The application uses a third-party API to get data. <br />
+
+      You can register on <a href="https://home.openweathermap.org/users/sign_up/" target="_blank">
         openweathermap
-      </a>
-      and get your free API key for log in to the application. <br /><br />
+      </a> and add your own free api key or use a shared key. But his limit may be exhausted :)<br /><br />
       Good weather!
     </p>
   </div>
@@ -37,11 +38,13 @@ async function checkKey() {
     const isKeyOk = await useFetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${inputAPI.value}`);
 
     if (!isKeyOk.error.value) {
-      // тут можно будет записать персональный ключ пользователя
+      const key = useCookie('key')
+      key.value = `${inputAPI.value}`;
       navigateTo('/');
     }
   } catch (error) {
     console.log(error);
+    alert('Try to add another key...')
   }
 }
 </script>
@@ -87,6 +90,7 @@ async function checkKey() {
       height: 53px;
       font-size: $subtitle-size;
       line-height: 18;
+      padding-left: 8px;
     }
 
     input[name="auth-input"] {
@@ -113,22 +117,27 @@ async function checkKey() {
     justify-content: space-between;
   }
 
+  &__links {
+    display: flex;
+    gap: 16px;
+  }
+
   &__button {
-    width: 200px;
     height: 60px;
+    padding: 0 30px;
     font-size: $text-search-size;
     color: $secondary-color;
     background-color: $primary-color;
     border-radius: 8px;
 
     &:hover {
-      background-color: #d1ec57;
+      background-color: $yellow-color;
     }
 
     @media (max-width: $phone-max) {
       height: 53px;
       font-size: $subtitle-size;
-      width: 150px;
+      padding: 0 8px;
     }
   }
 
@@ -139,7 +148,7 @@ async function checkKey() {
 
     &:hover,
     &:active {
-      background-color: #d1ec57;
+      background-color: $yellow-color;
     }
   }
 
@@ -154,7 +163,7 @@ async function checkKey() {
     }
 
     a {
-      color: #d1ec57;
+      color: $yellow-color;
       font-weight: 700;
     }
   }

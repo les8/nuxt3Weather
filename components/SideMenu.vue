@@ -1,9 +1,15 @@
 <template>
   <div class="side-menu" :class="menuVisible" @click="weatherStore.toggleMenuVisibility(false)">
     <aside class="side-menu__aside" @click.stop>
-      <h3 class="side-menu__title">Menu</h3>
+      <header class="side-menu__header" @click="weatherStore.toggleMenuVisibility(false)">
+        <h3 class="side-menu__title">Menu</h3>
+        <NuxtIcon name="hide-menu" class="side-menu__closer" />
+      </header>
       <ul class="side-menu__list">
-        <li class="side-menu__item"><NuxtLink class="side-menu__link" to="/auth">Add own API key</NuxtLink></li>
+        <li class="side-menu__item">
+          <NuxtLink v-if="!key" class="side-menu__link" to="/auth">Add own API key</NuxtLink>
+          <p v-else @click="removeCookieKey">Remove own API key</p>
+        </li>
       </ul>
     </aside>
   </div>
@@ -12,10 +18,16 @@
 <script setup>
 import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
+const key = useCookie('key');
 
 const menuVisible = computed(() => {
   return weatherStore.isMenuVisible ? 'side-menu_visible' : '';
-})
+});
+
+const removeCookieKey = () => {
+  key.value = null;
+  alert('Your key was removed from cookie.');
+};
 </script>
 
 <style lang="scss" scoped>
@@ -49,10 +61,21 @@ const menuVisible = computed(() => {
     }
   }
 
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    color: $secondary-color;
+    cursor: pointer;
+  }
+
   &__title {
     font-size: $title-size;
-    color: $secondary-color;
-    cursor: default;
+  }
+
+  &__closer {
+    width: 50px;
+    height: 50px;
   }
 
   &__list {
@@ -66,8 +89,11 @@ const menuVisible = computed(() => {
     position: relative;
     right: -10px;
     padding: 5px 10px;
+    font-size: $text-size;
+    color: $secondary-color;
     border-radius: 20px;
     transition: transform 0.5s;
+    cursor: pointer;
 
     &:hover {
       background: $primary-color;
@@ -77,8 +103,21 @@ const menuVisible = computed(() => {
   }
 
   &__link {
-    font-size: $text-size;
-    color: $secondary-color;
+    color: inherit;
+  }
+}
+</style>
+
+<style lang="scss">
+.side-menu {
+  &__closer {
+    width: 50px;
+    height: 50px;
+
+    svg {
+      width: 50px;
+      height: 50px;
+    }
   }
 }
 </style>
