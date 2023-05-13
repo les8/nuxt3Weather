@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.8",
+    "h3": "^1.6.5",
     "nuxt-icons": "^3.2.1",
     "pinia": "^2.0.34"
   }

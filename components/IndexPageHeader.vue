@@ -12,7 +12,8 @@
           {{ weatherStore.currentCity }}
         </h3>
       </div>
-      <IndexPageHeaderTemperature :class="hideTemperature"/>
+      <NuxtIcon name="burger" class="burger" :class="[hideBurger, animateBurger]"
+        @click="weatherStore.toggleMenuVisibility(true)" />
     </div>
     <div class="location__managment">
       <button class="location__change location__button" @click="editCurrentCity">Change Region</button>
@@ -35,7 +36,6 @@ const inChanges = ref(false);
 const location = ref(null);
 
 const editCurrentCity = () => {
-  location.value.style.zIndex = 1;
   beforeEditCity.value = inputCity.value;
   inputCity.value = "";
   inChanges.value = true;
@@ -48,7 +48,6 @@ const submitCurrentCity = () => {
     weatherStore.setWeatherByName();
   } else inputCity.value = beforeEditCity.value;
   inChanges.value = false;
-  location.value.style.zIndex = 0;
 }
 
 const strBeautify = (str) => {
@@ -66,8 +65,12 @@ const setMyLocation = () => {
   weatherStore.setCoordinates();
 }
 
-const hideTemperature = computed(() => {
-  return inChanges.value ? 'location__temperature' : '';
+const hideBurger = computed(() => {
+  return inChanges.value ? 'burger_hidden' : '';
+})
+
+const animateBurger = computed(() => {
+  return weatherStore.isMenuVisible ? 'burger_animated' : '';
 })
 </script>
 
@@ -122,12 +125,6 @@ const hideTemperature = computed(() => {
     cursor: pointer;
   }
 
-  &__temperature {
-    @media (max-width: $phone-max) {
-      display: none;
-    }
-  }
-
   &__managment {
     display: flex;
 
@@ -165,6 +162,32 @@ const hideTemperature = computed(() => {
     height: 23px;
     margin-right: 12px;
     fill: $primary-color;
+  }
+}
+</style>
+
+<style lang="scss">
+.burger {
+  display: block;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 1s, transform 1s;
+
+  &_hidden {
+    @media (max-width: $phone-max) {
+      display: none;
+    }
+  }
+
+  &_animated {
+    opacity: 0;
+    transform: rotate(200deg) scale(0.2);
+  }
+
+  svg {
+    width: 50px;
+    height: 50px;
+    margin: 0;
   }
 }
 </style>
