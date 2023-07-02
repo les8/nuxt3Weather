@@ -1,10 +1,12 @@
 <template>
-  <div class="side-menu" :class="menuVisible" @click="weatherStore.toggleMenuVisibility(false)">
+  <div class="side-menu" :class="{ 'side-menu_visible': weatherStore.isMenuVisible }"
+    @click="weatherStore.toggleMenuVisibility(false)">
     <aside class="side-menu__aside" @click.stop>
       <header class="side-menu__header" @click="weatherStore.toggleMenuVisibility(false)">
         <h3 class="side-menu__title">Menu</h3>
         <NuxtIcon name="hide-menu" class="side-menu__closer" />
       </header>
+      
       <ul class="side-menu__list">
         <li class="side-menu__item">
           <NuxtLink v-if="!key" class="side-menu__link" to="/auth">Add own API key</NuxtLink>
@@ -15,16 +17,12 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
 const key = useCookie('key');
 
-const menuVisible = computed(() => {
-  return weatherStore.isMenuVisible ? 'side-menu_visible' : '';
-});
-
-const removeCookieKey = () => {
+const removeCookieKey = (): void => {
   key.value = null;
   alert('Your key was removed from cookie.');
 };

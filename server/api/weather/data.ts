@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const { weatherApiKey } = useRuntimeConfig();
   const cookieKey = getCookie(event, 'key');
-  const currentKey = cookieKey ? cookieKey : weatherApiKey;
+  const currentKey: string = cookieKey ? cookieKey : weatherApiKey;
   let uri;
 
   if (query.hasOwnProperty('city')) {

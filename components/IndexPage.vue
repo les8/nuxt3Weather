@@ -1,5 +1,5 @@
 <template>
-  <div class="startpage" :class="blurClass">
+  <div class="startpage" :class="{ 'startpage_blured': weatherStore.isMenuVisible || weatherStore.isLoadingData }">
     <IndexPageHeader />
     <IndexPageMain />
     <IndexPageFooter />
@@ -13,13 +13,9 @@
 <script setup>
 import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
-
-const blurClass = computed(() => {
-  return weatherStore.isMenuVisible || weatherStore.isLoadingData ? 'startpage_blur' : '';
-})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .startpage {
   display: flex;
   flex-direction: column;
@@ -27,7 +23,7 @@ const blurClass = computed(() => {
   height: 100%;
   padding: 100px 200px;
 
-  &_blur {
+  &_blured {
     filter: blur(5px);
   }
 

@@ -4,24 +4,22 @@
   </div>
 </template>
 
-<script setup>
-import { useWeatherStore } from '~/stores/WeatherStore';
-import { onMounted } from 'vue';
+<script lang="ts" setup>
+  import { useWeatherStore } from '~/stores/WeatherStore';
+  import { onMounted } from 'vue';
 
-const weatherStore = useWeatherStore();
+  const weatherStore = useWeatherStore();
 
-const props = defineProps({
-  initialization: {
-    type: Boolean,
-    default: false,
-  },
-})
-
-onMounted(() => {
-  if (props.initialization) {
-    weatherStore.setInitialWeather();
+  interface LoaderProps {
+    initialization?: boolean
   }
-});
+  const props = defineProps<LoaderProps>();
+
+  onMounted(() => {
+    if (props.initialization) {
+      weatherStore.setInitialWeather();
+    }
+  });
 </script>
 
 <style lang="scss" scoped>
