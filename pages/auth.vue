@@ -1,13 +1,16 @@
 <template>
   <div class="auth">
     <h1 class="auth__title">Add Personal API Key</h1>
+
     <div class="auth__input">
       <input type="text" name="auth-input" placeholder="Enter your key..." v-model="inputAPI" @keydown.enter="checkKey" />
     </div>
+
     <div class="auth__actions">
       <button class="auth__button" type="submit" @click="checkKey">
         Save in Cookie
       </button>
+
       <nav class="auth__links">
         <a class="auth__button auth__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
           Register
@@ -15,6 +18,7 @@
         <NuxtLink class="auth__button auth__link" to="/">Home</NuxtLink>
       </nav>
     </div>
+
     <p class="auth__about">
       Hi! <br /><br />
       The application uses a third-party API to get data. <br />
@@ -27,11 +31,10 @@
   </div>
 </template>
 
-<script setup>
-// Этот компонент можно в будущем переделать под регистрацию
-const inputAPI = ref('');
+<script lang="ts" setup>
+const inputAPI = ref<string>('');
 
-async function checkKey() {
+async function checkKey(): Promise<void> {
   if (!inputAPI.value) return;
 
   try {
