@@ -6,6 +6,7 @@
         <h3 class="side-menu__title">Menu</h3>
         <NuxtIcon name="hide-menu" class="side-menu__closer" />
       </header>
+      
       <ul class="side-menu__list">
         <li class="side-menu__item">
           <NuxtLink v-if="!key" class="side-menu__link" to="/auth">Add own API key</NuxtLink>
@@ -16,12 +17,12 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
 const key = useCookie('key');
 
-const removeCookieKey = () => {
+const removeCookieKey = (): void => {
   key.value = null;
   alert('Your key was removed from cookie.');
 };
