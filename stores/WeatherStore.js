@@ -11,6 +11,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   let isGeolocationActive = ref(false);
   let isLoadingData = ref(false);
   let isMenuVisible = ref(false);
+  let mode = ref('name')
 
   function setCurrentCity(newCurrentCity) {
     currentCity.value = newCurrentCity;
@@ -53,9 +54,14 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     isMenuVisible.value = boolean;
   }
 
+  function setMode(value) {
+    mode.value = value;
+  }
+
   async function setWeatherByName() {
     toggleLoading(true);
     clearCurrentPosition();
+    setMode('name')
 
     try {
       const weatherByName = await $fetch(`/api/weather/data?city=${currentCity.value}`);
@@ -105,6 +111,7 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       if (position.coords.latitude !== currentPosition.value.latitude 
         && position.coords.longitude !== currentPosition.value.longitude) {
 
+        setMode('location');
         setCurrentPosition(position.coords);
         toggleGeolocationActivity(true);
         toggleLoading(false);
