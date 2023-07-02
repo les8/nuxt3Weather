@@ -1,31 +1,18 @@
 import { defineStore } from "pinia";
 import { kelvinToFahrenheit } from "@/helpers/formules";
 import { Mode } from "~/types/Mode";
-import {
-  WeatherByCoords,
-  WeatherByName,
-} from "~/types/weather/WeatherInterfaces";
+import { CurrentWeather } from "~/types/weather/WeatherInterfaces";
 import { Position, PositionCoords } from "~/types/Position";
-
-const nullCurrentPosition = {
-  accuracy: null,
-  altitude: null,
-  altitudeAccuracy: null,
-  heading: null,
-  latitude: null,
-  longitude: null,
-  speed: null,
-}
+import { nullCurrentPosition, nullCurrentWeather } from "./NullStateData";
 
 export const useWeatherStore = defineStore("weatherStore", () => {
   let mode = ref<Mode>("name");
   let currentCity = ref<string>("Okinawa");
   let previousCity = ref<string>("");
-  let currentWeather =
-    mode.value === "name"
-      ? ref<WeatherByName | {}>({})
-      : ref<WeatherByCoords | {}>({});
-  let currentPosition = ref<PositionCoords>(structuredClone(nullCurrentPosition));
+  let currentWeather = ref<CurrentWeather>(structuredClone(nullCurrentWeather));
+  let currentPosition = ref<PositionCoords>(
+    structuredClone(nullCurrentPosition)
+  );
   let inFahrenheit = ref<boolean>(false);
   let fahrenheitTemperature = ref<string>("");
   let isGeolocationActive = ref<boolean>(false);
@@ -40,9 +27,7 @@ export const useWeatherStore = defineStore("weatherStore", () => {
     previousCity.value = currentCity.value;
   }
 
-  function setCurrentWeather(
-    newCurrentWeather: WeatherByName | WeatherByCoords
-  ) {
+  function setCurrentWeather(newCurrentWeather: CurrentWeather) {
     currentWeather.value = newCurrentWeather;
   }
 
@@ -85,7 +70,7 @@ export const useWeatherStore = defineStore("weatherStore", () => {
     setMode("name");
 
     try {
-      const weatherByName: WeatherByName = await $fetch(
+      const weatherByName: CurrentWeather = await $fetch(
         `/api/weather/data?city=${currentCity.value}`
       );
 
@@ -109,7 +94,7 @@ export const useWeatherStore = defineStore("weatherStore", () => {
     toggleLoading(true);
 
     try {
-      const weatherByCoords: WeatherByCoords = await $fetch(
+      const weatherByCoords: CurrentWeather = await $fetch(
         `/api/weather/data?latitude=${currentPosition.value.latitude}&longitude=${currentPosition.value.longitude}`
       );
 

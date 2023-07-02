@@ -1,27 +1,24 @@
-import { Main, Sys, Wind, CommonWeather } from "./CommonWeaterInterfaces";
+import {
+  Main,
+  Sys,
+  Wind,
+  Clouds,
+  Coord,
+  WeatherItem,
+} from "./CommonWeaterInterfaces";
 
-export interface WeatherByName extends CommonWeather {
-  main: Main;
-  sys: SysWeatherByName;
-  wind: Wind;
-}
-
-export interface WeatherByCoords extends CommonWeather {
-  main: MainWeatherByCoords;
-  sys: Sys;
-  wind: WindWeatherByCoords;
-}
-
-interface SysWeatherByName extends Sys {
+export interface CurrentWeather {
+  base: string;
+  clouds: Clouds;
+  cod: number;
+  coord: Coord;
+  dt: number;
   id: number;
-  type: number;
-}
-
-interface MainWeatherByCoords extends Main {
-  grnd_level: number;
-  sea_level: number;
-}
-
-interface WindWeatherByCoords extends Wind {
-  gust: number;
+  name: string;
+  timezone: number;
+  visibility: number;
+  weather: WeatherItem[];
+  main: Main;
+  sys: Sys;
+  wind: Wind;
 }

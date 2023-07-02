@@ -1,15 +1,3 @@
-export interface CommonWeather {
-  base: string,
-  clouds: Clouds,
-  cod: number,
-  coord: Coord,
-  dt: number,
-  id: number,
-  name: string,
-  timezone: number,
-  weather: WeatherItem[],
-}
-
 export interface Clouds {
   all: number,
 }
@@ -26,6 +14,8 @@ export interface Main {
   temp: number;
   temp_max: number;
   temp_min: number;
+  grnd_level?: number;
+  sea_level?: number;
 }
 
 export interface WeatherItem {
@@ -39,9 +29,12 @@ export interface Sys {
   country: string,
   sunrise: number,
   sunset: number,
+  id?: number;
+  type?: number;
 }
 
 export interface Wind {
   deg: number;
   speed: number;
+  gust?: number;
 }

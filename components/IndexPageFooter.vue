@@ -22,54 +22,50 @@
 </template>
 
 <script lang="ts" setup>
-import { hectopascalToMillimetersMercury } from "@/helpers/formules";
-import { useWeatherStore } from '~/stores/WeatherStore';
+  import { hectopascalToMillimetersMercury } from "@/helpers/formules";
+  import { useWeatherStore } from '~/stores/WeatherStore';
+  import { CurrentWeather } from "~/types/weather/WeatherInterfaces";
 
-const weatherStore = useWeatherStore();
+  const currentWeather: CurrentWeather = useWeatherStore().currentWeather;
 
-const wind = computed((): number => {
-  return weatherStore.currentWeather.wind.speed.toFixed(1);
-})
+  const wind = computed((): number => {
+    return Number(currentWeather.wind.speed.toFixed(1));
+  })
 
-const windDirection = computed(() => {
-  return convertWindDirection(weatherStore.currentWeather.wind.deg);
-})
+  const windDirection = computed((): string => {
+    return convertWindDirection(currentWeather.wind.deg);
+  })
 
-const pressure = computed(() => {
-  const hectopascalPressure = weatherStore.currentWeather.main.pressure;
-  return Math.round(
-    hectopascalToMillimetersMercury(parseInt(hectopascalPressure, 10))
-  );
-})
+  const pressure = computed((): number => Math.round(hectopascalToMillimetersMercury(currentWeather.main.pressure)))
 
-const humidity = computed(() => {
-  return weatherStore.currentWeather.main.humidity;
-})
+  const humidity = computed((): number => {
+    return currentWeather.main.humidity;
+  })
 
-const visibility = computed(() => {
-  return weatherStore.currentWeather.visibility;
-})
+  const visibility = computed((): number => {
+    return currentWeather.visibility;
+  })
 
 
-function convertWindDirection(num: number): string {
-  if (num > 23 && num <= 68) {
-    return "north-east";
-  } else if (num > 68 && num <= 113) {
-    return "east";
-  } else if (num > 113 && num <= 158) {
-    return "south-east";
-  } else if (num > 158 && num <= 203) {
-    return "south";
-  } else if (num > 203 && num <= 248) {
-    return "south-west";
-  } else if (num > 248 && num <= 293) {
-    return "west";
-  } else if (num > 293 && num <= 338) {
-    return "north-west";
-  } else {
-    return "north";
+  function convertWindDirection(num: number): string {
+    if (num > 23 && num <= 68) {
+      return "north-east";
+    } else if (num > 68 && num <= 113) {
+      return "east";
+    } else if (num > 113 && num <= 158) {
+      return "south-east";
+    } else if (num > 158 && num <= 203) {
+      return "south";
+    } else if (num > 203 && num <= 248) {
+      return "south-west";
+    } else if (num > 248 && num <= 293) {
+      return "west";
+    } else if (num > 293 && num <= 338) {
+      return "north-west";
+    } else {
+      return "north";
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
