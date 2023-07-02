@@ -21,13 +21,13 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { hectopascalToMillimetersMercury } from "@/helpers/formules";
 import { useWeatherStore } from '~/stores/WeatherStore';
 
 const weatherStore = useWeatherStore();
 
-const wind = computed(() => {
+const wind = computed((): number => {
   return weatherStore.currentWeather.wind.speed.toFixed(1);
 })
 
@@ -51,10 +51,8 @@ const visibility = computed(() => {
 })
 
 
-function convertWindDirection(num) {
-  if (num > 338 || num <= 23) {
-    return "north";
-  } else if (num > 23 && num <= 68) {
+function convertWindDirection(num: number): string {
+  if (num > 23 && num <= 68) {
     return "north-east";
   } else if (num > 68 && num <= 113) {
     return "east";
@@ -68,6 +66,8 @@ function convertWindDirection(num) {
     return "west";
   } else if (num > 293 && num <= 338) {
     return "north-west";
+  } else {
+    return "north";
   }
 }
 </script>
