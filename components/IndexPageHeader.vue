@@ -1,22 +1,27 @@
 <template>
   <div class="header">
-    <div ref="location" class="location">
+    <div class="location">
       <div v-if="inChanges" class="location__search">
         <input type="text" name="city-search" placeholder="Search for a lovely place..."
           title="Must contain only Latin letters spaces and hyphens" autocomplete="off" v-model="inputCity"
           @input="validateSearch" @keydown.enter="submitCurrentCity" />
+
         <input type="submit" value="OK" @click="submitCurrentCity" />
       </div>
+
       <div v-else class="location__info">
         <h3 class="location__name" @click="editCurrentCity">
           {{ weatherStore.currentCity }}
         </h3>
       </div>
+
       <NuxtIcon name="burger" class="burger" :class="[hideBurger, animateBurger]"
         @click="weatherStore.toggleMenuVisibility(true)" />
     </div>
+
     <div class="location__managment">
       <button class="location__change location__button" @click="editCurrentCity">Change Region</button>
+
       <button class="location__mycoordinates location__button" @click="setMyLocation">
         <NuxtIcon name="location" class="location__icon" />
         <p>My Location</p>
@@ -25,23 +30,22 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { useWeatherStore } from '~/stores/WeatherStore';
 
 const weatherStore = useWeatherStore();
-const inputCity = ref('');
+const inputCity = ref<string>('');
 const beforeEditCity = inputCity;
-const inChanges = ref(false);
-const location = ref(null);
+const inChanges = ref<boolean>(false);
 
-const editCurrentCity = () => {
+const editCurrentCity = (): void => {
   beforeEditCity.value = inputCity.value;
   inputCity.value = "";
   inChanges.value = true;
 }
 
-const submitCurrentCity = () => {
+const submitCurrentCity = (): void => {
   if (inputCity.value.trim() !== "") {
     weatherStore.setPreviousCity();
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
@@ -50,26 +54,26 @@ const submitCurrentCity = () => {
   inChanges.value = false;
 }
 
-const strBeautify = (str) => {
+const strBeautify = (str: string): string => {
   const lowStr = str.toLowerCase();
   return lowStr.charAt(0).toUpperCase() + lowStr.slice(1);
 }
 
-const validateSearch = (e) => {
+const validateSearch = (e: any): void => {
   inputCity.value = e.target.value.replace(/[^A-z,a-z,А-Я,а-я\s,-]/g, "");
 };
 
-const setMyLocation = () => {
+const setMyLocation = (): void => {
   inputCity.value = '';
   inChanges.value = false;
   weatherStore.setCoordinates();
 }
 
-const hideBurger = computed(() => {
+const hideBurger = computed((): string => {
   return inChanges.value ? 'burger_hidden' : '';
 })
 
-const animateBurger = computed(() => {
+const animateBurger = computed((): string => {
   return weatherStore.isMenuVisible ? 'burger_animated' : '';
 })
 </script>
