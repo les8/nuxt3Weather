@@ -29,6 +29,8 @@
 import { ref } from 'vue'
 import { useWeatherStore } from '~/stores/WeatherStore';
 
+const toast = useToast();
+
 const weatherStore = useWeatherStore();
 const inputCity = ref('');
 const beforeEditCity = inputCity;
@@ -45,7 +47,11 @@ const submitCurrentCity = () => {
   if (inputCity.value.trim() !== "") {
     weatherStore.setPreviousCity();
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
-    weatherStore.setWeatherByName();
+    weatherStore.setWeatherByName().then((res) => {
+      if (res !== undefined) {
+        toast.add(res);
+      }
+    });
   } else inputCity.value = beforeEditCity.value;
   inChanges.value = false;
 }
@@ -62,7 +68,11 @@ const validateSearch = (e) => {
 const setMyLocation = () => {
   inputCity.value = '';
   inChanges.value = false;
-  weatherStore.setCoordinates();
+  weatherStore.setCoordinates().then((res) => {
+    if (res !== undefined) {
+      toast.add(res);
+    }
+  });
 }
 
 const hideBurger = computed(() => {

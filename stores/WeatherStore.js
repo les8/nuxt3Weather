@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
 import { kelvinToFahrenheit } from "@/helpers/formules";
 
-const toast = useToast();
-
 export const useWeatherStore = defineStore("weatherStore", () => {
   let currentCity = ref("Okinawa");
   let previousCity = ref("");
@@ -65,9 +63,11 @@ export const useWeatherStore = defineStore("weatherStore", () => {
     clearCurrentPosition();
     setMode("name");
 
+    const cityForRequest = currentCity.value;
+
     try {
       const weatherByName = await $fetch(
-        `/api/weather/data?city=${currentCity.value}`
+        `/api/weather/data?city=${cityForRequest}`
       );
 
       setCurrentWeather(weatherByName);
@@ -81,8 +81,14 @@ export const useWeatherStore = defineStore("weatherStore", () => {
       const error = e.data;
       if (error.data.cod === "404" && error.data.message === "city not found") {
         setCurrentCity(previousCity.value);
-        alert("City not found.");
-      } else alert(error);
+
+        return {
+          id: "city_not_found",
+          title: `City '${cityForRequest}' not found.`,
+          color: "orange",
+          timeout: 3500,
+        };
+      } else console.error(error);
     }
   }
 
@@ -102,7 +108,7 @@ export const useWeatherStore = defineStore("weatherStore", () => {
 
       setTimeout(toggleLoading, 600, false);
     } catch (e) {
-      alert(e);
+      console.error(e);
       toggleLoading(false);
     }
   }
@@ -130,15 +136,16 @@ export const useWeatherStore = defineStore("weatherStore", () => {
       } else setTimeout(toggleLoading, 600, false);
     } catch (e) {
       if (e.code === 1) {
-        toast.add({
+        toggleGeolocationActivity(false);
+        toggleLoading(false);
+
+        return {
           id: "no_geolocation",
           title:
             "To get the weather in your region, please enable geolocation.",
           color: "orange",
           timeout: 3000,
-        });
-        toggleGeolocationActivity(false);
-        toggleLoading(false);
+        };
       }
     }
   }

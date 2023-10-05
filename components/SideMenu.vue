@@ -22,9 +22,16 @@ import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
 const key = useCookie('key');
 
+const toast = useToast();
+
 const removeCookieKey = () => {
+  weatherStore.toggleMenuVisibility(false);
   key.value = null;
-  alert('Your key was removed from cookie.');
+  toast.add({
+    id: "remove_key_from_cookie",
+    title: 'Your key was removed from cookie.',
+    timeout: 3000,
+  });
 };
 </script>
 
