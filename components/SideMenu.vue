@@ -8,7 +8,8 @@
       </header>
       <ul class="side-menu__list noselect">
         <li class="side-menu__item">
-          <NuxtLink v-if="!key" class="side-menu__link" to="/auth">Add own API key</NuxtLink>
+          <NuxtLink v-if="!key" class="side-menu__link" to="/auth" @click="weatherStore.toggleMenuVisibility(false)">Add
+            own API key</NuxtLink>
           <p v-else @click="removeCookieKey">Remove own API key</p>
         </li>
       </ul>
@@ -42,7 +43,7 @@ const removeCookieKey = () => {
     padding: 100px 32px;
     background: $yellow-color;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 100px 100%);
-    transition: transform 0.8s;
+    transition: transform 0.4s;
     transition-delay: 0.2s;
   }
 
