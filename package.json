@@ -10,11 +10,12 @@
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
-    "nuxt": "^3.3.2",
+    "nuxt": "^3.7.4",
     "sass": "^1.60.0",
     "sass-loader": "^13.2.2"
   },
   "dependencies": {
+    "@nuxt/ui": "^2.9.0",
     "@pinia/nuxt": "^0.4.8",
     "h3": "^1.6.5",
     "nuxt-icons": "^3.2.1",

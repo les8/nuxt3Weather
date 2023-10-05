@@ -24,12 +24,16 @@
       </a> and add your own free api key or use a shared key. But his limit may be exhausted :)<br /><br />
       Good weather!
     </p>
+
+    <UNotifications />
   </div>
 </template>
 
 <script setup>
 // Этот компонент можно в будущем переделать под регистрацию
 const inputAPI = ref('');
+
+const toast = useToast();
 
 async function checkKey() {
   if (!inputAPI.value) return;
@@ -41,10 +45,18 @@ async function checkKey() {
       const key = useCookie('key')
       key.value = `${inputAPI.value}`;
       navigateTo('/');
+    } else {
+      toast.add({
+        id: "uncorrect_api_key",
+        title: 'Uncorrect key, try to add another one...',
+        color: 'orange',
+        timeout: 3000,
+      });
+
+      inputAPI.value = ''
     }
   } catch (error) {
     console.log(error);
-    alert('Try to add another key...')
   }
 }
 </script>

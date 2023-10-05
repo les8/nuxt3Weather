@@ -1,17 +1,17 @@
-import { defineStore } from 'pinia';
-import { kelvinToFahrenheit } from '@/helpers/formules';
+import { defineStore } from "pinia";
+import { kelvinToFahrenheit } from "@/helpers/formules";
 
-export const useWeatherStore = defineStore('weatherStore', () => {
-  let currentCity = ref('Okinawa');
-  let previousCity = ref('');
+export const useWeatherStore = defineStore("weatherStore", () => {
+  let currentCity = ref("Okinawa");
+  let previousCity = ref("");
   let currentWeather = ref({});
   let currentPosition = ref({});
   let inFahrenheit = ref(false);
-  let fahrenheitTemperature = ref('');
+  let fahrenheitTemperature = ref("");
   let isGeolocationActive = ref(false);
   let isLoadingData = ref(false);
   let isMenuVisible = ref(false);
-  let mode = ref('name')
+  let mode = ref("name");
 
   function setCurrentCity(newCurrentCity) {
     currentCity.value = newCurrentCity;
@@ -43,11 +43,11 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   }
 
   function toggleGeolocationActivity(boolean) {
-    isGeolocationActive.value = boolean
+    isGeolocationActive.value = boolean;
   }
 
   function toggleLoading(boolean) {
-    isLoadingData.value = boolean
+    isLoadingData.value = boolean;
   }
 
   function toggleMenuVisibility(boolean) {
@@ -61,22 +61,34 @@ export const useWeatherStore = defineStore('weatherStore', () => {
   async function setWeatherByName() {
     toggleLoading(true);
     clearCurrentPosition();
-    setMode('name')
+    setMode("name");
+
+    const cityForRequest = currentCity.value;
 
     try {
-      const weatherByName = await $fetch(`/api/weather/data?city=${currentCity.value}`);
+      const weatherByName = await $fetch(
+        `/api/weather/data?city=${cityForRequest}`
+      );
 
       setCurrentWeather(weatherByName);
-      setFahrenheitTemperature(kelvinToFahrenheit(weatherByName.main.temp).toFixed(0));
+      setFahrenheitTemperature(
+        kelvinToFahrenheit(weatherByName.main.temp).toFixed(0)
+      );
 
       setTimeout(toggleLoading, 600, false);
     } catch (e) {
       toggleLoading(false);
       const error = e.data;
-      if (error.data.cod === '404' && error.data.message === 'city not found') {
-        setCurrentCity(previousCity.value);        
-        alert('City not found.');
-      } else alert(error);
+      if (error.data.cod === "404" && error.data.message === "city not found") {
+        setCurrentCity(previousCity.value);
+
+        return {
+          id: "city_not_found",
+          title: `City '${cityForRequest}' not found.`,
+          color: "orange",
+          timeout: 3500,
+        };
+      } else console.error(error);
     }
   }
 
@@ -84,15 +96,19 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     toggleLoading(true);
 
     try {
-      const weatherByCoords = await $fetch(`/api/weather/data?latitude=${currentPosition.value.latitude}&longitude=${currentPosition.value.longitude}`);
+      const weatherByCoords = await $fetch(
+        `/api/weather/data?latitude=${currentPosition.value.latitude}&longitude=${currentPosition.value.longitude}`
+      );
 
       setCurrentWeather(weatherByCoords);
       setCurrentCity(weatherByCoords.name);
-      setFahrenheitTemperature(kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0));
+      setFahrenheitTemperature(
+        kelvinToFahrenheit(weatherByCoords.main.temp).toFixed(0)
+      );
 
       setTimeout(toggleLoading, 600, false);
     } catch (e) {
-      alert(e);
+      console.error(e);
       toggleLoading(false);
     }
   }
@@ -108,10 +124,11 @@ export const useWeatherStore = defineStore('weatherStore', () => {
 
     try {
       const position = await getCoordinates();
-      if (position.coords.latitude !== currentPosition.value.latitude 
-        && position.coords.longitude !== currentPosition.value.longitude) {
-
-        setMode('location');
+      if (
+        position.coords.latitude !== currentPosition.value.latitude &&
+        position.coords.longitude !== currentPosition.value.longitude
+      ) {
+        setMode("location");
         setCurrentPosition(position.coords);
         toggleGeolocationActivity(true);
         toggleLoading(false);
@@ -119,9 +136,16 @@ export const useWeatherStore = defineStore('weatherStore', () => {
       } else setTimeout(toggleLoading, 600, false);
     } catch (e) {
       if (e.code === 1) {
-        alert('Please, turn on your geolocation.')
         toggleGeolocationActivity(false);
         toggleLoading(false);
+
+        return {
+          id: "no_geolocation",
+          title:
+            "To get the weather in your region, please enable geolocation.",
+          color: "orange",
+          timeout: 3000,
+        };
       }
     }
   }
@@ -154,5 +178,5 @@ export const useWeatherStore = defineStore('weatherStore', () => {
     setWeatherByCoords,
     setCoordinates,
     setInitialWeather,
-  }
-})
+  };
+});

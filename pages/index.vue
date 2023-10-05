@@ -3,6 +3,7 @@
     <PageLoader v-if="!weatherStore.currentWeather.name" :initialization="true" />
     <IndexPage v-else />
     <SideMenu />
+    <UNotifications />
   </div>
 </template>
 
