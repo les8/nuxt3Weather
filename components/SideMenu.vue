@@ -2,11 +2,11 @@
   <div class="side-menu" :class="{ 'side-menu_visible': weatherStore.isMenuVisible }"
     @click="weatherStore.toggleMenuVisibility(false)">
     <aside class="side-menu__aside" @click.stop>
-      <header class="side-menu__header" @click="weatherStore.toggleMenuVisibility(false)">
+      <header class="side-menu__header noselect" @click="weatherStore.toggleMenuVisibility(false)">
         <h3 class="side-menu__title">Menu</h3>
         <NuxtIcon name="hide-menu" class="side-menu__closer" />
       </header>
-      <ul class="side-menu__list">
+      <ul class="side-menu__list noselect">
         <li class="side-menu__item">
           <NuxtLink v-if="!key" class="side-menu__link" to="/auth">Add own API key</NuxtLink>
           <p v-else @click="removeCookieKey">Remove own API key</p>
