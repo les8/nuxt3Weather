@@ -56,7 +56,7 @@ async function checkKey() {
       inputAPI.value = ''
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 </script>
