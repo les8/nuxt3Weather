@@ -28,26 +28,26 @@ import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
 
 const wind = computed(() => {
-  return weatherStore.currentWeather.wind.speed.toFixed(1);
+  return weatherStore[`currentWeatherBy${weatherStore.mode}`].wind.speed.toFixed(1);
 })
 
 const windDirection = computed(() => {
-  return convertWindDirection(weatherStore.currentWeather.wind.deg);
+  return convertWindDirection(weatherStore[`currentWeatherBy${weatherStore.mode}`].wind.deg);
 })
 
 const pressure = computed(() => {
-  const hectopascalPressure = weatherStore.currentWeather.main.pressure;
+  const hectopascalPressure = weatherStore[`currentWeatherBy${weatherStore.mode}`].main.pressure;
   return Math.round(
     hectopascalToMillimetersMercury(parseInt(hectopascalPressure, 10))
   );
 })
 
 const humidity = computed(() => {
-  return weatherStore.currentWeather.main.humidity;
+  return weatherStore[`currentWeatherBy${weatherStore.mode}`].main.humidity;
 })
 
 const visibility = computed(() => {
-  return weatherStore.currentWeather.visibility;
+  return weatherStore[`currentWeatherBy${weatherStore.mode}`].visibility;
 })
 
 

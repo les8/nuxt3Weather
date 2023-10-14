@@ -3,7 +3,8 @@
     <div class="main__head">
       <NuxtIcon :name="weatherIcon" className="main__icon" />
       <div class="main__temperature">
-        {{ weatherStore.inFahrenheit ? weatherStore.fahrenheitTemperature : celsiusTemperature }}º
+        {{ weatherStore.inFahrenheit ? weatherStore.fahrenheitTemperature :
+          celsiusTemperature }}º
       </div>
     </div>
     <div class="main__info">{{ weatherInfo }}</div>
@@ -17,28 +18,28 @@ import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
 
 const celsiusTemperature = computed(() => {
-  const temperature = weatherStore.currentWeather.main.temp;
+  const temperature = weatherStore[`currentWeatherBy${weatherStore.mode}`].main.temp;
   return Math.round(kelvinToСelsius(parseInt(temperature, 10)));
 });
 
 const weatherInfo = computed(() => {
-  return weatherStore.currentWeather.weather[0].description;
+  return weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].description;
 });
 
 const weatherIcon = computed(() => {
-  if (weatherStore.currentWeather.weather[0].main === "Clear") {
+  if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Clear") {
     return "sun";
-  } else if (weatherStore.currentWeather.weather[0].main === "Rain") {
+  } else if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Rain") {
     return "rain";
-  } else if (weatherStore.currentWeather.weather[0].main === "Snow") {
+  } else if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Snow") {
     return "snow";
   } else if (
-    weatherStore.currentWeather.weather[0].description === "overcast clouds"
+    weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].description === "overcast clouds"
   ) {
     return "cloud";
-  } else if (weatherStore.currentWeather.weather[0].main === "Clouds") {
+  } else if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Clouds") {
     return "partly";
-  } else if (weatherStore.currentWeather.weather[0].main === "Mist") {
+  } else if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Mist") {
     return "cloud";
   } else return "location"; //for catch errors, becouse api docs have some problems:)
 });

@@ -1,6 +1,8 @@
 <template>
   <div class="wrapper">
-    <PageLoader v-if="!weatherStore.currentWeather.name" :initialization="true" />
+    <PageLoader
+      v-if="!weatherStore.currentWeatherByPosition.name && !weatherStore.currentWeatherByName.name"
+      :initialization="true" />
     <IndexPage v-else />
     <SideMenu />
     <UNotifications />

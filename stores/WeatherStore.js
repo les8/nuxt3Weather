@@ -1,17 +1,65 @@
-import { defineStore } from "pinia";
-import { kelvinToFahrenheit } from "@/helpers/formules";
+import { defineStore } from 'pinia';
+import { kelvinToFahrenheit } from '@/helpers/formules';
 
-export const useWeatherStore = defineStore("weatherStore", () => {
-  let currentCity = ref("Okinawa");
-  let previousCity = ref("");
-  let currentWeather = ref({});
+function createWeatherObject() {
+  return {
+    coord: {
+      lon: null,
+      lat: null,
+    },
+    weather: [
+      {
+        id: null,
+        main: '',
+        description: '',
+        icon: '',
+      },
+    ],
+    main: {
+      temp: null,
+      feels_like: null,
+      temp_min: null,
+      temp_max: null,
+      pressure: null,
+      humidity: null,
+    },
+    wind: {
+      speed: null,
+      deg: null,
+      gust: null,
+    },
+    clouds: {
+      all: null,
+    },
+    sys: {
+      type: null,
+      id: null,
+      country: '',
+      sunrise: null,
+      sunset: null,
+    },
+    base: '',
+    visibility: null,
+    dt: null,
+    timezone: null,
+    id: null,
+    name: '',
+    cod: null,
+  };
+}
+
+export const useWeatherStore = defineStore('weatherStore', () => {
+  let currentCity = ref('Okinawa');
+  let previousCity = ref('');
+  let currentWeatherByPosition = ref(createWeatherObject());
+  let currentWeatherByName = ref(createWeatherObject());
   let currentPosition = ref({});
   let inFahrenheit = ref(false);
-  let fahrenheitTemperature = ref("");
+  let fahrenheitTemperature = ref('');
   let isGeolocationActive = ref(false);
   let isLoadingData = ref(false);
   let isMenuVisible = ref(false);
-  let mode = ref("name");
+  let mode = ref('Position'); // Name | Position
 
   function setCurrentCity(newCurrentCity) {
     currentCity.value = newCurrentCity;
@@ -22,16 +70,13 @@ export const useWeatherStore = defineStore("weatherStore", () => {
   }
 
   function setCurrentWeather(newCurrentWeather) {
-    currentWeather.value = newCurrentWeather;
+    mode.value === 'Position'
+      ? (currentWeatherByPosition.value = newCurrentWeather)
+      : (currentWeatherByName.value = newCurrentWeather);
   }
 
   function setCurrentPosition(newCurrentPosition) {
     currentPosition.value = newCurrentPosition;
-  }
-
-  function clearCurrentPosition() {
-    //т.к. на данный момент погода по запросу и по координатам хранится в одном месте
-    currentPosition.value = {};
   }
 
   function toggleFahrenheitTemperature(boolean) {
@@ -60,8 +105,6 @@ export const useWeatherStore = defineStore("weatherStore", () => {
 
   async function setWeatherByName() {
     toggleLoading(true);
-    clearCurrentPosition();
-    setMode("name");
 
     const cityForRequest = currentCity.value;
 
@@ -70,6 +113,7 @@ export const useWeatherStore = defineStore("weatherStore", () => {
         `/api/weather/data?city=${cityForRequest}`
       );
 
+      setMode('Name');
       setCurrentWeather(weatherByName);
       setFahrenheitTemperature(
         kelvinToFahrenheit(weatherByName.main.temp).toFixed(0)
@@ -78,14 +122,16 @@ export const useWeatherStore = defineStore("weatherStore", () => {
       setTimeout(toggleLoading, 600, false);
     } catch (e) {
       toggleLoading(false);
+
       const error = e.data;
-      if (error.data.cod === "404" && error.data.message === "city not found") {
+
+      if (error.data.cod === '404' && error.data.message === 'city not found') {
         setCurrentCity(previousCity.value);
 
         return {
-          id: "city_not_found",
+          id: 'city_not_found',
           title: `City '${cityForRequest}' not found.`,
-          color: "orange",
+          color: 'orange',
           timeout: 3500,
         };
       } else console.error(error);
@@ -100,6 +146,7 @@ export const useWeatherStore = defineStore("weatherStore", () => {
         `/api/weather/data?latitude=${currentPosition.value.latitude}&longitude=${currentPosition.value.longitude}`
       );
 
+      setMode('Position');
       setCurrentWeather(weatherByCoords);
       setCurrentCity(weatherByCoords.name);
       setFahrenheitTemperature(
@@ -124,26 +171,30 @@ export const useWeatherStore = defineStore("weatherStore", () => {
 
     try {
       const position = await getCoordinates();
+
       if (
         position.coords.latitude !== currentPosition.value.latitude &&
         position.coords.longitude !== currentPosition.value.longitude
       ) {
-        setMode("location");
         setCurrentPosition(position.coords);
         toggleGeolocationActivity(true);
         toggleLoading(false);
         setWeatherByCoords();
-      } else setTimeout(toggleLoading, 600, false);
+      } else {
+        setMode('Position');
+        setCurrentCity(currentWeatherByPosition.value.name);
+        toggleLoading(false);
+      }
     } catch (e) {
       if (e.code === 1) {
         toggleGeolocationActivity(false);
         toggleLoading(false);
 
         return {
-          id: "no_geolocation",
+          id: 'no_geolocation',
           title:
-            "To get the weather in your region, please enable geolocation.",
-          color: "orange",
+            'To get the weather in your region, please enable geolocation.',
+          color: 'orange',
           timeout: 3000,
         };
       }
@@ -160,13 +211,15 @@ export const useWeatherStore = defineStore("weatherStore", () => {
 
   return {
     currentCity,
-    currentWeather,
+    currentWeatherByPosition,
+    currentWeatherByName,
     currentPosition,
     inFahrenheit,
     fahrenheitTemperature,
     isGeolocationActive,
     isLoadingData,
     isMenuVisible,
+    mode,
     setCurrentCity,
     setPreviousCity,
     setCurrentWeather,
@@ -178,5 +231,6 @@ export const useWeatherStore = defineStore("weatherStore", () => {
     setWeatherByCoords,
     setCoordinates,
     setInitialWeather,
+    setMode,
   };
 });

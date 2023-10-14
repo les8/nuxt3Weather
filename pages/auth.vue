@@ -6,7 +6,7 @@
     </div>
     <div class="auth__actions">
       <button class="auth__button" type="submit" @click="checkKey">
-        Save in Cookie
+        Save
       </button>
       <nav class="auth__links">
         <a class="auth__button auth__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">

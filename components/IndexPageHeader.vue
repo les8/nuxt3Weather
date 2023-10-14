@@ -44,6 +44,20 @@ const editCurrentCity = () => {
 }
 
 const submitCurrentCity = () => {
+  if (strBeautify(inputCity.value) === weatherStore.currentWeatherByName.name) {
+    weatherStore.setMode('Name');
+    weatherStore.setCurrentCity(strBeautify(inputCity.value));
+    inChanges.value = false;
+    return;
+  }
+
+  if (strBeautify(inputCity.value) === weatherStore.currentWeatherByPosition.name) {
+    weatherStore.setMode('Position');
+    weatherStore.setCurrentCity(strBeautify(inputCity.value));
+    inChanges.value = false;
+    return;
+  }
+
   if (inputCity.value.trim() !== "") {
     weatherStore.setPreviousCity();
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
@@ -53,6 +67,7 @@ const submitCurrentCity = () => {
       }
     });
   } else inputCity.value = beforeEditCity.value;
+
   inChanges.value = false;
 }
 
