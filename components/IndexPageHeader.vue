@@ -2,23 +2,33 @@
   <div class="header">
     <div ref="location" class="location">
       <div v-if="inChanges" class="location__search">
-        <input type="text" name="city-search" placeholder="Search for a lovely place..."
-          title="Must contain only Latin letters spaces and hyphens" autocomplete="off" v-model="inputCity"
-          @input="validateSearch" @keydown.enter="submitCurrentCity" />
+        <input v-focus type="text" name="city-search"
+          placeholder="Search for a lovely place..."
+          title="Must contain only Latin letters spaces and hyphens"
+          autocomplete="off" v-model="inputCity" @input="validateSearch"
+          @keydown.enter="submitCurrentCity" />
+
         <input type="submit" value="OK" @click="submitCurrentCity" />
       </div>
+
       <div v-else class="location__info">
         <h3 class="location__name" @click="editCurrentCity">
           {{ weatherStore.currentCity }}
         </h3>
       </div>
+
       <NuxtIcon name="burger" class="burger" :class="[hideBurger, animateBurger]"
         @click="weatherStore.toggleMenuVisibility(true)" />
     </div>
+
     <div class="location__managment">
-      <button class="location__change location__button" @click="editCurrentCity">Change Region</button>
-      <button class="location__mycoordinates location__button" @click="setMyLocation">
+      <button class="location__change location__button"
+        @click="editCurrentCity">Change Region</button>
+
+      <button class="location__mycoordinates location__button"
+        @click="setMyLocation">
         <NuxtIcon name="location" class="location__icon" />
+
         <p>My Location</p>
       </button>
     </div>
@@ -28,6 +38,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useWeatherStore } from '~/stores/WeatherStore';
+
+const vFocus = {
+  mounted: (el) => el.focus()
+}
 
 const toast = useToast();
 
