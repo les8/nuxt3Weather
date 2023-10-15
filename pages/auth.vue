@@ -29,13 +29,13 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // Этот компонент можно в будущем переделать под регистрацию
-const inputAPI = ref('');
+const inputAPI = ref<string>('');
 
 const toast = useToast();
 
-async function checkKey() {
+async function checkKey(): Promise<void> {
   if (!inputAPI.value) return;
 
   try {

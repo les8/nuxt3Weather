@@ -35,29 +35,30 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { Directive } from 'nuxt/dist/app/compat/capi';
 import { ref } from 'vue'
 import { useWeatherStore } from '~/stores/WeatherStore';
 
-const vFocus = {
-  mounted: (el) => el.focus()
+const vFocus: Directive = {
+  mounted: (el: HTMLElement) => el.focus()
 }
 
 const toast = useToast();
 
 const weatherStore = useWeatherStore();
-const inputCity = ref('');
+const inputCity = ref<string>('');
 const beforeEditCity = inputCity;
-const inChanges = ref(false);
-const location = ref(null);
+const inChanges = ref<boolean>(false);
+const location: Ref<HTMLElement | null>  = ref(null);
 
-const editCurrentCity = () => {
+const editCurrentCity = (): void => {
   beforeEditCity.value = inputCity.value;
   inputCity.value = "";
   inChanges.value = true;
 }
 
-const submitCurrentCity = () => {
+const submitCurrentCity = (): void => {
   if (strBeautify(inputCity.value) === weatherStore.currentWeatherByName.name) {
     weatherStore.setMode('Name');
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
@@ -75,7 +76,7 @@ const submitCurrentCity = () => {
   if (inputCity.value.trim() !== "") {
     weatherStore.setPreviousCity();
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
-    weatherStore.setWeatherByName().then((res) => {
+    weatherStore.setWeatherByName().then((res: Partial<Notification> | undefined) => {
       if (res !== undefined) {
         toast.add(res);
       }
@@ -85,30 +86,30 @@ const submitCurrentCity = () => {
   inChanges.value = false;
 }
 
-const strBeautify = (str) => {
+const strBeautify = (str: string) => {
   const lowStr = str.toLowerCase();
   return lowStr.charAt(0).toUpperCase() + lowStr.slice(1);
 }
 
-const validateSearch = (e) => {
+const validateSearch = (e: any) => {
   inputCity.value = e.target.value.replace(/[^A-z,a-z,А-Я,а-я\s,-]/g, "");
 };
 
-const setMyLocation = () => {
+const setMyLocation = (): void => {
   inputCity.value = '';
   inChanges.value = false;
-  weatherStore.setCoordinates().then((res) => {
+  weatherStore.setCoordinates().then((res: Partial<Notification> | undefined) => {
     if (res !== undefined) {
       toast.add(res);
     }
   });
 }
 
-const hideBurger = computed(() => {
+const hideBurger = computed((): string => {
   return inChanges.value ? 'burger_hidden' : '';
 })
 
-const animateBurger = computed(() => {
+const animateBurger = computed((): string => {
   return weatherStore.isMenuVisible ? 'burger_animated' : '';
 })
 </script>
