@@ -11,22 +11,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { kelvinToСelsius } from "@/helpers/formules";
 import { useWeatherStore } from '~/stores/WeatherStore';
 
 const weatherStore = useWeatherStore();
 
-const celsiusTemperature = computed(() => {
+const celsiusTemperature = computed((): number => {
   const temperature = weatherStore[`currentWeatherBy${weatherStore.mode}`].main.temp;
-  return Math.round(kelvinToСelsius(parseInt(temperature, 10)));
+  return Math.round(kelvinToСelsius(parseInt(String(temperature), 10)));
 });
 
-const weatherInfo = computed(() => {
+const weatherInfo = computed((): string => {
   return weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].description;
 });
 
-const weatherIcon = computed(() => {
+const weatherIcon = computed((): string => {
   if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Clear") {
     return "sun";
   } else if (weatherStore[`currentWeatherBy${weatherStore.mode}`].weather[0].main === "Rain") {

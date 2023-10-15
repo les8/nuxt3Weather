@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useWeatherStore } from '~/stores/WeatherStore';
 const weatherStore = useWeatherStore();
 </script>

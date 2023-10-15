@@ -21,37 +21,36 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { hectopascalToMillimetersMercury } from "@/helpers/formules";
 import { useWeatherStore } from '~/stores/WeatherStore';
 
 const weatherStore = useWeatherStore();
 
-const wind = computed(() => {
+const wind = computed((): string => {
   return weatherStore[`currentWeatherBy${weatherStore.mode}`].wind.speed.toFixed(1);
 })
 
-const windDirection = computed(() => {
+const windDirection = computed((): string => {
   return convertWindDirection(weatherStore[`currentWeatherBy${weatherStore.mode}`].wind.deg);
 })
 
-const pressure = computed(() => {
-  const hectopascalPressure = weatherStore[`currentWeatherBy${weatherStore.mode}`].main.pressure;
+const pressure = computed((): number => {
+  const hectopascalPressure: number = weatherStore[`currentWeatherBy${weatherStore.mode}`].main.pressure;
   return Math.round(
-    hectopascalToMillimetersMercury(parseInt(hectopascalPressure, 10))
+    hectopascalToMillimetersMercury(parseInt(String(hectopascalPressure), 10))
   );
 })
 
-const humidity = computed(() => {
+const humidity = computed((): number => {
   return weatherStore[`currentWeatherBy${weatherStore.mode}`].main.humidity;
 })
 
-const visibility = computed(() => {
+const visibility = computed((): number => {
   return weatherStore[`currentWeatherBy${weatherStore.mode}`].visibility;
 })
 
-
-function convertWindDirection(num) {
+function convertWindDirection(num: number): string {
   if (num > 338 || num <= 23) {
     return "north";
   } else if (num > 23 && num <= 68) {
@@ -68,7 +67,7 @@ function convertWindDirection(num) {
     return "west";
   } else if (num > 293 && num <= 338) {
     return "north-west";
-  }
+  } else return '';
 }
 </script>
 

@@ -17,14 +17,16 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { CookieRef } from 'nuxt/dist/app/composables/cookie';
 import { useWeatherStore } from '~/stores/WeatherStore';
+
 const weatherStore = useWeatherStore();
-const key = useCookie('key');
+const key: CookieRef<string | null | undefined> = useCookie('key');
 
 const toast = useToast();
 
-const removeCookieKey = () => {
+const removeCookieKey = (): void => {
   weatherStore.toggleMenuVisibility(false);
   key.value = null;
   toast.add({
