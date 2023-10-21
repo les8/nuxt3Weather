@@ -59,21 +59,21 @@ const editCurrentCity = (): void => {
 }
 
 const submitCurrentCity = (): void => {
-  if (strBeautify(inputCity.value) === weatherStore.currentWeatherByName.name) {
-    weatherStore.setMode('Name');
-    weatherStore.setCurrentCity(strBeautify(inputCity.value));
-    inChanges.value = false;
-    return;
-  }
-
-  if (strBeautify(inputCity.value) === weatherStore.currentWeatherByPosition.name) {
-    weatherStore.setMode('Position');
-    weatherStore.setCurrentCity(strBeautify(inputCity.value));
-    inChanges.value = false;
-    return;
-  }
-
   if (inputCity.value.trim() !== "") {
+    if (strBeautify(inputCity.value) === weatherStore.currentWeatherByName.name) {
+      weatherStore.setMode('Name');
+      weatherStore.setCurrentCity(strBeautify(inputCity.value));
+      inChanges.value = false;
+      return;
+    }
+
+    if (strBeautify(inputCity.value) === weatherStore.currentWeatherByPosition.name) {
+      weatherStore.setMode('Position');
+      weatherStore.setCurrentCity(strBeautify(inputCity.value));
+      inChanges.value = false;
+      return;
+    }
+
     weatherStore.setPreviousCity();
     weatherStore.setCurrentCity(strBeautify(inputCity.value));
     weatherStore.setWeatherByName().then((res: Partial<Notification> | undefined) => {
