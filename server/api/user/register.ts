@@ -5,10 +5,10 @@ import { prisma } from '~/prisma/prisma-client';
 
 export default defineEventHandler(async (event) => {
   /**
- * @route POST /api/user/register
- * @desc Регистрация
- * @access Public
- */
+  * @route POST /api/user/register
+  * @desc Регистрация
+  * @access Public
+  */
 
   if (event.node.req.method !== 'POST') {
     return {
