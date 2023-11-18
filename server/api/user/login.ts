@@ -43,6 +43,7 @@ export default defineEventHandler(async (event) => {
           id: user.id,
           email: user.email,
           name: user.name,
+          openWeatherKey: user.openWeatherKey,
           token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '30d' })
         }
       }
