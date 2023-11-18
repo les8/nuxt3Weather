@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     if (!email || !password || !name) {
       return {
         status: 400,
-        message: 'Пожалуйста, заполните обязательные поля'
+        message: 'Please fill in the required fields'
       }
     }
 
@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
     if (registeredUser) {
       return {
         status: 400,
-        message: 'Пользователь, с таким email уже существует'
+        message: 'A user with such an email already exists'
       }
     }    
 
@@ -66,13 +66,13 @@ export default defineEventHandler(async (event) => {
     } else {
       return {
         status: 400,
-        message: 'Не удалось создать пользователя'
+        message: 'Failed to create user'
       }
     }
   } catch {
     return {
       status: 500,
-      message: 'Что-то пошло не так'
+      message: 'Something went wrong'
     }
   }
 })
