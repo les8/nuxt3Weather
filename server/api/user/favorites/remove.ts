@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     if (!body || !body.id) {
       return {
         status: 400,
-        message: 'Bad Request'
+        message: 'Please fill in the required fields'
       }
     }
     
