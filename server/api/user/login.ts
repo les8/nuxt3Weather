@@ -37,6 +37,16 @@ export default defineEventHandler(async (event) => {
     const { jwtSecret } = useRuntimeConfig();
 
     if (user && isPasswordCorrect && jwtSecret) {
+      const favoritesCities = await prisma.favoritesCities.findMany({
+        where: {
+          userId: user.id
+        },
+        select: { 
+          id: true,
+          name: true
+        }
+      })
+
       return {
         status: 200,
         data: {
@@ -44,6 +54,7 @@ export default defineEventHandler(async (event) => {
           email: user.email,
           name: user.name,
           openWeatherKey: user.openWeatherKey,
+          favoritesCities,
           token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '30d' })
         }
       }
