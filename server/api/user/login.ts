@@ -18,9 +18,9 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { email, password } = await readBody(event);
+    const body = await readBody(event);
 
-    if (!email || !password) {
+    if (!body || !body.email || !body.password) {
       return {
         status: 400,
         message: 'Please fill in the required fields'
@@ -29,11 +29,11 @@ export default defineEventHandler(async (event) => {
 
     const user = await prisma.user.findFirst({
       where: {
-        email,
+        email: body.email,
       }
     });
 
-    const isPasswordCorrect = user && (await bcrypt.compare(password, user.password));
+    const isPasswordCorrect = user && (await bcrypt.compare(body.password, user.password));
     const { jwtSecret } = useRuntimeConfig();
 
     if (user && isPasswordCorrect && jwtSecret) {

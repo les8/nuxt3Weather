@@ -18,9 +18,9 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { email, password, name } = await readBody(event);
+    const body = await readBody(event);
 
-    if (!email || !password || !name) {
+    if (!body || !body.email || !body.password || !body.name) {
       return {
         status: 400,
         message: 'Please fill in the required fields'
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
     const registeredUser = await prisma.user.findFirst({
       where: {
-        email
+        email: body.email
       }
     });
 
@@ -41,12 +41,12 @@ export default defineEventHandler(async (event) => {
     }    
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassord = await bcrypt.hash(password, salt);
+    const hashedPassord = await bcrypt.hash(body.password, salt);
 
     const user = await prisma.user.create({
       data: {
-        email,
-        name,
+        email: body.email,
+        name: body.name,
         password: hashedPassord
       }
     });
@@ -59,8 +59,9 @@ export default defineEventHandler(async (event) => {
         data: {
           id: user.id,
           email: user.email,
-          name,
+          name: user.name,
           openWeatherKey: user.openWeatherKey,
+          favoritesCities: [],
           token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '30d' })
         }
       }

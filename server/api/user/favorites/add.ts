@@ -16,18 +16,18 @@ export default defineEventHandler(async (event) => {
   }
 
   try {    
-    const { name } = await readBody(event);    
+    const body = await readBody(event);    
 
-    if (!name) {
+    if (!body || !body.name) {
       return {
         status: 400,
-        message: 'Bad Request'
+        message: 'Please fill in the required fields'
       }
     }    
     
     const selectedCity = await prisma.favoritesCities.findFirst({
       where: {
-        name,
+        name: body.name,
         userId: event.context.auth.id
       }
     });    
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
 
     const city = await prisma.favoritesCities.create({
       data: {
-        name,
+        name: body.name,
         userId: event.context.auth.id
       }
     });
@@ -52,14 +52,13 @@ export default defineEventHandler(async (event) => {
         status: 201,
         data: {
           id: city.id,
-          name,
-          userId: city.userId
+          name: body.name
         }
       }
     } else {
       return {
         status: 400,
-        message: `City '${name}' could not be added to favorites`
+        message: `City '${body.name}' could not be added to favorites`
       }
     }
   } catch (error) {
