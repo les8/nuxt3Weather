@@ -3,7 +3,8 @@ import { prisma } from '~/prisma/prisma-client';
 
 export default defineEventHandler(async (event) => {
   if (event.node.req.url === '/api/user/current' ||
-    event.node.req.url === '/api/user/favorites/add') {
+    event.node.req.url === '/api/user/favorites/add' ||
+    event.node.req.url === '/api/user/favorites/remove') {
     try {
       if (event.node.req.headers.authorization) {
         const { jwtSecret } = useRuntimeConfig();
