@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
         where: {
           userId: user.id
         },
-        select: { 
+        select: {
           id: true,
           name: true
         }
@@ -50,12 +50,14 @@ export default defineEventHandler(async (event) => {
       return {
         status: 200,
         data: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          openWeatherKey: user.openWeatherKey,
-          favoritesCities,
-          token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '30d' })
+          user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            openWeatherKey: user.openWeatherKey,
+          },
+          cities: favoritesCities,
+          token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' })
         }
       }
     } else {

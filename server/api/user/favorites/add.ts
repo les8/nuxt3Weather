@@ -28,21 +28,21 @@ export default defineEventHandler(async (event) => {
     const selectedCity = await prisma.favoritesCities.findFirst({
       where: {
         name: body.name,
-        userId: event.context.auth.id
+        userId: event.context.auth.user.id
       }
     });    
 
     if (selectedCity) {
       return {
         status: 400,
-        message: `City '${name}' has already been added to favorites`
+        message: `City '${body.name}' has already been added to favorites`
       }
     }
 
     const city = await prisma.favoritesCities.create({
       data: {
         name: body.name,
-        userId: event.context.auth.id
+        userId: event.context.auth.user.id
       }
     });
     

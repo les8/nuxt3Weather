@@ -16,9 +16,24 @@ export default defineEventHandler(async (event) => {
             where: {
               id: decoded.id,
             },
+            select: {
+              id: true,
+              email: true,
+              name: true
+            }
           });
 
-          event.context.auth = user;
+          if (user) {
+            const userCities = await prisma.favoritesCities.findMany({
+              where: {
+                userId: decoded.id,
+              },
+            })
+
+            event.context.auth = {}
+            event.context.auth.user = user;
+            event.context.auth.cities = userCities;
+          }
         }
       } else throw new Error();
     } catch (error) {

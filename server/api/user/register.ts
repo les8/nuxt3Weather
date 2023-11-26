@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
         status: 400,
         message: 'A user with such an email already exists'
       }
-    }    
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassord = await bcrypt.hash(body.password, salt);
@@ -51,17 +51,18 @@ export default defineEventHandler(async (event) => {
       }
     });
 
-    const { jwtSecret } = useRuntimeConfig();    
+    const { jwtSecret } = useRuntimeConfig();
 
     if (user && jwtSecret) {
       return {
         status: 201,
         data: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          openWeatherKey: user.openWeatherKey,
-          favoritesCities: [],
+          user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            openWeatherKey: user.openWeatherKey,
+          },
           token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' }),
         }
       }
