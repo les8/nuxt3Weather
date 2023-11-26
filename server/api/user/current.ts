@@ -10,10 +10,20 @@ export default defineEventHandler(async (event) => {
       status: 405,
       message: `Method ${event.node.req.method} not allowed`
     }
+  }  
+
+  if (event.context.auth) {
+    return {
+      status: 200,
+      data: event.context.auth
+    }
+  } else {
+    return {
+      status: 500,
+      message: 'Не удалось получить данные пользователя'
+    }
   }
 
-  return {
-    status: 200,
-    data: event.context.auth
-  }
+
+
 })
