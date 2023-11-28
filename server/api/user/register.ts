@@ -51,6 +51,16 @@ export default defineEventHandler(async (event) => {
       }
     });
 
+    const userSettings = await prisma.settings.create({
+      data: {
+        temperature: 'C',
+        wind: 'm/s',
+        pressure: 'mmHg',
+        visibility: 'm',
+        userId: user.id
+      }
+    });
+
     const { jwtSecret } = useRuntimeConfig();
 
     if (user && jwtSecret) {
@@ -62,6 +72,12 @@ export default defineEventHandler(async (event) => {
             email: user.email,
             name: user.name,
             openWeatherKey: user.openWeatherKey,
+          },
+          settings: {
+            temperature: userSettings.temperature,
+            wind: userSettings.wind,
+            pressure: userSettings.pressure,
+            visibility: userSettings.visibility,
           },
           token: jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' }),
         }
