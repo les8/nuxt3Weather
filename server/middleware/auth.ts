@@ -28,11 +28,23 @@ export default defineEventHandler(async (event) => {
               where: {
                 userId: decoded.id,
               },
+            }),
+            prisma.settings.findUnique({
+              where: {
+                userId: decoded.id,
+              },
+              select: {
+                temperature: true,
+                wind: true,
+                pressure: true,
+                visibility: true
+              }
             })
           ]).then(result => {            
             event.context.auth = {}
             event.context.auth.user = result[0];
             event.context.auth.cities = result[1];
+            event.context.auth.settings = result[2];
           })
         }
       } else throw new Error();
