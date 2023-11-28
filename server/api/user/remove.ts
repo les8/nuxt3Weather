@@ -16,6 +16,11 @@ export default defineEventHandler(async (event) => {
 
   try {
     Promise.all([
+      prisma.settings.delete({
+        where: {
+          userId: event.context.auth.user.id,
+        }
+      }),
       prisma.favoritesCities.deleteMany({
         where: {
           userId: event.context.auth.user.id,
