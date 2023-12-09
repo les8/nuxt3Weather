@@ -8,7 +8,7 @@
       </header>
       <ul class="side-menu__list noselect">
         <li class="side-menu__item">
-          <NuxtLink v-if="!key" class="side-menu__link" to="/auth" @click="weatherStore.toggleMenuVisibility(false)">Add
+          <NuxtLink v-if="!key" class="side-menu__link" to="/register" @click="weatherStore.toggleMenuVisibility(false)">Add
             own API key</NuxtLink>
           <p v-else @click="removeCookieKey">Remove own API key</p>
         </li>
