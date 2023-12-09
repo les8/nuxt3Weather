@@ -1,21 +1,21 @@
 <template>
-  <div class="auth">
-    <h1 class="auth__title">Add Personal API Key</h1>
-    <div class="auth__input">
-      <input type="text" name="auth-input" placeholder="Enter your key..." v-model="inputAPI" @keydown.enter="checkKey" />
+  <div class="register">
+    <h1 class="register__title">Add Personal API Key</h1>
+    <div class="register__input">
+      <input type="text" name="register-input" placeholder="Enter your key..." v-model="inputAPI" @keydown.enter="checkKey" />
     </div>
-    <div class="auth__actions">
-      <button class="auth__button" type="submit" @click="checkKey">
+    <div class="register__actions">
+      <button class="register__button" type="submit" @click="checkKey">
         Save
       </button>
-      <nav class="auth__links">
-        <a class="auth__button auth__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
+      <nav class="register__links">
+        <a class="register__button register__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
           Register
         </a>
-        <NuxtLink class="auth__button auth__link" to="/">Home</NuxtLink>
+        <NuxtLink class="register__button register__link" to="/">Home</NuxtLink>
       </nav>
     </div>
-    <p class="auth__about">
+    <p class="register__about">
       Hi! <br /><br />
       The application uses a third-party API to get data. <br />
 
@@ -66,7 +66,7 @@ async function checkKey(): Promise<void> {
 </style>
 
 <style lang="scss" scoped>
-.auth {
+.register {
   width: 80%;
   padding: 100px 0;
   margin: 0 auto;
@@ -105,7 +105,7 @@ async function checkKey(): Promise<void> {
       padding-left: 8px;
     }
 
-    input[name="auth-input"] {
+    input[name="register-input"] {
       flex-grow: 1;
       border: none;
       outline: none;
