@@ -1,0 +1,183 @@
+<template>
+  <div class="register">
+    <h1 class="register__title">Add Personal API Key</h1>
+    <div class="register__input">
+      <input type="text" name="register-input" placeholder="Enter your key..." v-model="inputAPI" @keydown.enter="checkKey" />
+    </div>
+    <div class="register__actions">
+      <button class="register__button" type="submit" @click="checkKey">
+        Save
+      </button>
+      <nav class="register__links">
+        <a class="register__button register__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
+          Register
+        </a>
+        <NuxtLink class="register__button register__link" to="/">Home</NuxtLink>
+      </nav>
+    </div>
+    <p class="register__about">
+      Hi! <br /><br />
+      The application uses a third-party API to get data. <br />
+
+      You can register on <a href="https://home.openweathermap.org/users/sign_up/" target="_blank">
+        openweathermap
+      </a> and add your own free api key or use a shared key. But his limit may be exhausted :)<br /><br />
+      Good weather!
+    </p>
+
+    <UNotifications />
+  </div>
+</template>
+
+<script setup lang="ts">
+// Этот компонент можно в будущем переделать под регистрацию
+const inputAPI = ref<string>('');
+
+const toast = useToast();
+
+async function checkKey(): Promise<void> {
+  if (!inputAPI.value) return;
+
+  try {
+    const isKeyOk = await useFetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${inputAPI.value}`);
+
+    if (!isKeyOk.error.value) {
+      const key = useCookie('key')
+      key.value = `${inputAPI.value}`;
+      navigateTo('/');
+    } else {
+      toast.add({
+        id: "uncorrect_api_key",
+        title: 'Uncorrect key, try to add another one...',
+        color: 'orange',
+        timeout: 3000,
+      });
+
+      inputAPI.value = ''
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+</script>
+
+<style lang="scss">
+@import '@/public/styles/common.scss';
+</style>
+
+<style lang="scss" scoped>
+.register {
+  width: 80%;
+  padding: 100px 0;
+  margin: 0 auto;
+
+  @media (max-width: $phone-max) {
+    width: calc(100vw - 32px);
+    padding: 64px 0 0;
+    margin: auto;
+  }
+
+  &__title {
+    font-size: $title-size;
+    margin-bottom: 32px;
+
+    @media (max-width: $phone-max) {
+      margin-bottom: 16px;
+      text-align: center;
+    }
+  }
+
+  &__input {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    margin-bottom: 16px;
+    padding: 10px 0 10px 30px;
+    border-radius: 8px;
+    background-color: $primary-color;
+    font-size: $text-search-size;
+    color: $secondary-color;
+
+    @media (max-width: $phone-max) {
+      height: 53px;
+      font-size: $subtitle-size;
+      line-height: 18;
+      padding-left: 8px;
+    }
+
+    input[name="register-input"] {
+      flex-grow: 1;
+      border: none;
+      outline: none;
+      appearance: none;
+      vertical-align: middle;
+
+      @media (max-width: $phone-max) {
+        line-height: 18px;
+      }
+    }
+
+    input[type="submit"] {
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__links {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__button {
+    height: 60px;
+    padding: 0 30px;
+    font-size: $text-search-size;
+    color: $secondary-color;
+    background-color: $primary-color;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: $yellow-color;
+    }
+
+    @media (max-width: $phone-max) {
+      height: 53px;
+      font-size: $subtitle-size;
+      padding: 0 8px;
+    }
+  }
+
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover,
+    &:active {
+      background-color: $yellow-color;
+    }
+  }
+
+  &__about {
+    margin-top: 32px;
+    font-size: $text-size;
+    font-style: italic;
+    line-height: 32px;
+
+    @media (max-width: $phone-max) {
+      font-size: $subtitle-size;
+    }
+
+    a {
+      color: $yellow-color;
+      font-weight: 700;
+    }
+  }
+}
+</style>
