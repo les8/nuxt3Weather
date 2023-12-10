@@ -6,6 +6,7 @@
       <header class="side-menu__header noselect"
         @click="weatherStore.toggleMenuVisibility(false)">
         <h3 class="side-menu__title">Menu</h3>
+
         <NuxtIcon name="hide-menu" class="side-menu__closer" />
       </header>
 
