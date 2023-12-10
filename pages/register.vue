@@ -1,27 +1,36 @@
 <template>
   <div class="register">
     <h1 class="register__title">Add Personal API Key</h1>
+
     <div class="register__input">
-      <input type="text" name="register-input" placeholder="Enter your key..." v-model="inputAPI" @keydown.enter="checkKey" />
+      <input type="text" name="register-input" placeholder="Enter your key..."
+        v-model="inputAPI" @keydown.enter="checkKey" />
     </div>
+
     <div class="register__actions">
       <button class="register__button" type="submit" @click="checkKey">
         Save
       </button>
+
       <nav class="register__links">
-        <a class="register__button register__link" target="_blank" href="https://home.openweathermap.org/users/sign_up/">
+        <a class="register__button register__link" target="_blank"
+          href="https://home.openweathermap.org/users/sign_up/">
           Register
         </a>
+
         <NuxtLink class="register__button register__link" to="/">Home</NuxtLink>
       </nav>
     </div>
+
     <p class="register__about">
       Hi! <br /><br />
       The application uses a third-party API to get data. <br />
 
-      You can register on <a href="https://home.openweathermap.org/users/sign_up/" target="_blank">
+      You can register on <a href="https://home.openweathermap.org/users/sign_up/"
+        target="_blank">
         openweathermap
-      </a> and add your own free api key or use a shared key. But his limit may be exhausted :)<br /><br />
+      </a> and add your own free api key or use a shared key. But his limit may be
+      exhausted :)<br /><br />
       Good weather!
     </p>
 
