@@ -56,7 +56,7 @@ const removeCookieKey = (): void => {
     width: 460px;
     height: 100%;
     padding: 100px 32px;
-    background: $yellow-color;
+    background: $marine-color;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 100px 100%);
     transition: transform 0.4s;
     transition-delay: 0.2s;

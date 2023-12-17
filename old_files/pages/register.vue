@@ -143,7 +143,7 @@ async function checkKey(): Promise<void> {
     border-radius: 8px;
 
     &:hover {
-      background-color: $yellow-color;
+      background-color: $marine-color;
     }
 
     @media (max-width: $phone-max) {
@@ -160,7 +160,7 @@ async function checkKey(): Promise<void> {
 
     &:hover,
     &:active {
-      background-color: $yellow-color;
+      background-color: $marine-color;
     }
   }
 
@@ -175,7 +175,7 @@ async function checkKey(): Promise<void> {
     }
 
     a {
-      color: $yellow-color;
+      color: $marine-color;
       font-weight: 700;
     }
   }
