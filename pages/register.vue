@@ -1,73 +1,70 @@
 <template>
   <div class="register">
-    <h1 class="register__title">Add Personal API Key</h1>
+    <form class="register__form">
+      <h1 class="register__title">Registration</h1>
 
-    <div class="register__input">
-      <input type="text" name="register-input" placeholder="Enter your key..."
-        v-model="inputAPI" @keydown.enter="checkKey" />
-    </div>
+      <ul class="register__inputs">
+        <li v-for="input in inputs" :key="input.id" class="register__input">
+          <WInput v-model:input="input.value" :id="input.id" :type="input.type"
+            :name="input.name" :placeholder="input.placeholder"
+            :label="input.label" />
+        </li>
+      </ul>
 
-    <div class="register__actions">
-      <button class="register__button" type="submit" @click="checkKey">
-        Save
-      </button>
-
-      <nav class="register__links">
-        <a class="register__button register__link" target="_blank"
-          href="https://home.openweathermap.org/users/sign_up/">
-          Register
-        </a>
-
-        <NuxtLink class="register__button register__link" to="/">Home</NuxtLink>
-      </nav>
-    </div>
-
-    <p class="register__about">
-      Hi! <br /><br />
-      The application uses a third-party API to get data. <br />
-
-      You can register on <a href="https://home.openweathermap.org/users/sign_up/"
-        target="_blank">
-        openweathermap
-      </a> and add your own free api key or use a shared key. But his limit may be
-      exhausted :)<br /><br />
-      Good weather!
-    </p>
-
-    <UNotifications />
+      <div class="register__actions">
+        <nav class="register__links">
+          <NuxtLink class="register__button register__link" to="/">Home</NuxtLink>
+        </nav>
+      </div>
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
-// Этот компонент можно в будущем переделать под регистрацию
-const inputAPI = ref<string>('');
+import WInput from '~/components/weather-ui/WInput.vue';
 
-const toast = useToast();
-
-async function checkKey(): Promise<void> {
-  if (!inputAPI.value) return;
-
-  try {
-    const isKeyOk = await useFetch(`https://api.openweathermap.org/data/2.5/weather?q=London&appid=${inputAPI.value}`);
-
-    if (!isKeyOk.error.value) {
-      const key = useCookie('key')
-      key.value = `${inputAPI.value}`;
-      navigateTo('/');
-    } else {
-      toast.add({
-        id: "uncorrect_api_key",
-        title: 'Uncorrect key, try to add another one...',
-        color: 'orange',
-        timeout: 3000,
-      });
-
-      inputAPI.value = ''
-    }
-  } catch (error) {
-    console.error(error);
+const inputs = reactive({
+  name: {
+    value: '',
+    id: 'user_name',
+    type: 'text',
+    name: 'user_name',
+    placeholder: 'enter your name...',
+    label: 'Name',
+    title: '',
+    autocomplete: 'off',
+  },
+  email: {
+    value: '',
+    id: 'user_email',
+    type: 'email',
+    name: 'user_email',
+    placeholder: 'enter your email...',
+    label: 'Email',
+    title: '',
+    autocomplete: 'of',
+  },
+  password: {
+    value: '',
+    id: 'user_password',
+    type: 'password',
+    name: 'user_password',
+    placeholder: 'create your password...',
+    label: 'Password',
+    title: '',
+    autocomplete: 'off',
+  },
+  passwordCheck: {
+    value: '',
+    id: 'user_password_check',
+    type: 'password',
+    name: 'user_password_check',
+    placeholder: 'repeat the password...',
+    label: '',
+    title: '',
+    autocomplete: 'off',
   }
-}
+});
 </script>
 
 <style lang="scss">
@@ -76,61 +73,31 @@ async function checkKey(): Promise<void> {
 
 <style lang="scss" scoped>
 .register {
-  width: 80%;
-  padding: 100px 0;
-  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 
-  @media (max-width: $phone-max) {
-    width: calc(100vw - 32px);
-    padding: 64px 0 0;
-    margin: auto;
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 30%;
   }
 
   &__title {
     font-size: $title-size;
-    margin-bottom: 32px;
 
     @media (max-width: $phone-max) {
-      margin-bottom: 16px;
       text-align: center;
     }
   }
 
-  &__input {
+  &__inputs {
     display: flex;
-    width: 100%;
-    height: 60px;
-    margin-bottom: 16px;
-    padding: 10px 0 10px 30px;
-    border-radius: 8px;
-    background-color: $primary-color;
-    font-size: $text-search-size;
-    color: $secondary-color;
-
-    @media (max-width: $phone-max) {
-      height: 53px;
-      font-size: $subtitle-size;
-      line-height: 18;
-      padding-left: 8px;
-    }
-
-    input[name="register-input"] {
-      flex-grow: 1;
-      border: none;
-      outline: none;
-      appearance: none;
-      vertical-align: middle;
-
-      @media (max-width: $phone-max) {
-        line-height: 18px;
-      }
-    }
-
-    input[type="submit"] {
-      border: none;
-      background: none;
-      cursor: pointer;
-    }
+    flex-direction: column;
+    gap: 8px;
   }
 
   &__actions {
@@ -152,7 +119,7 @@ async function checkKey(): Promise<void> {
     border-radius: 8px;
 
     &:hover {
-      background-color: $yellow-color;
+      background-color: $marine-color;
     }
 
     @media (max-width: $phone-max) {
@@ -169,23 +136,7 @@ async function checkKey(): Promise<void> {
 
     &:hover,
     &:active {
-      background-color: $yellow-color;
-    }
-  }
-
-  &__about {
-    margin-top: 32px;
-    font-size: $text-size;
-    font-style: italic;
-    line-height: 32px;
-
-    @media (max-width: $phone-max) {
-      font-size: $subtitle-size;
-    }
-
-    a {
-      color: $yellow-color;
-      font-weight: 700;
+      background-color: $marine-color;
     }
   }
 }
